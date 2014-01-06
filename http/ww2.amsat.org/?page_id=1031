@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" lang="en-US">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en-US">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en-US">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en-US">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>AO-7 | AMSAT-NA</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="http://ww2.amsat.org/wordpress/wp-content/themes/twentyeleven-amsat-child/style.css" />
+<link rel="pingback" href="http://ww2.amsat.org/wordpress/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="http://ww2.amsat.org/wordpress/wp-content/themes/twentyeleven/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="AMSAT-NA &raquo; Feed" href="http://ww2.amsat.org/?feed=rss2" />
+<link rel="alternate" type="application/rss+xml" title="AMSAT-NA &raquo; Comments Feed" href="http://ww2.amsat.org/?feed=comments-rss2" />
+
+            <script type="text/javascript">//<![CDATA[
+            // Google Analytics for WordPress by Yoast v4.3.3 | http://yoast.com/wordpress/google-analytics/
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-5071986-7']);
+				            _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+			<link rel="alternate" type="application/rss+xml" title="AMSAT-NA &raquo; AO-7 Comments Feed" href="http://ww2.amsat.org/?feed=rss2&#038;page_id=1031" />
+<link rel='stylesheet' id='cnss_css-css'  href='http://ww2.amsat.org/wordpress/wp-content/plugins/easy-social-icons/css/cnss.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://ww2.amsat.org/wordpress/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=3.6' type='text/css' media='all' />
+<script type='text/javascript' src='http://ww2.amsat.org/wordpress/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+<script type='text/javascript' src='http://ww2.amsat.org/wordpress/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://ww2.amsat.org/wordpress/wp-content/plugins/easy-social-icons/js/cnss.js?ver=1.0'></script>
+<script type='text/javascript' src='http://ww2.amsat.org/wordpress/wp-includes/js/comment-reply.min.js?ver=3.8'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://ww2.amsat.org/wordpress/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://ww2.amsat.org/wordpress/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='FO-29 (JAS-2).' href='http://ww2.amsat.org/?page_id=1024' />
+<link rel='next' title='VO-52 (HamSAT)' href='http://ww2.amsat.org/?page_id=1038' />
+<meta name="generator" content="WordPress 3.8" />
+<link rel='shortlink' href='http://ww2.amsat.org/?p=1031' />
+
+<!-- All in One SEO Pack 2.1.1 by Michael Torbert of Semper Fi Web Design[371,393] -->
+<link rel="author" href="https://plus.google.com/116094721661029032096/posts" />
+
+<link rel="canonical" href="http://ww2.amsat.org/?page_id=1031" />
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-5071986-7']);
+		  _gaq.push(['_setDomainName', 'amsat.org']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+		<script type="text/javascript">
+		function recordOutboundLink(link, category, action) {
+					_gat._getTrackerByName()._trackEvent(category, action);
+					if ( link.target == '_blank' ) return true;
+			setTimeout('document.location = "' + link.href + '"', 100);
+			return false;
+		}
+			/* use regular Javascript for this */
+			function getAttr(ele, attr) {
+				var result = (ele.getAttribute && ele.getAttribute(attr)) || null;
+				if( !result ) {
+					var attrs = ele.attributes;
+					var length = attrs.length;
+					for(var i = 0; i < length; i++)
+					if(attr[i].nodeName === attr) result = attr[i].nodeValue;
+				}
+				return result;
+			}
+			function aiosp_addLoadEvent(func) {
+			  var oldonload = window.onload;
+			  if (typeof window.onload != 'function') {
+			    window.onload = func;
+			  } else {
+			    window.onload = function() {
+			      if (oldonload) {
+			        oldonload();
+			      }
+			      func();
+			    }
+			  }
+			}
+
+			aiosp_addLoadEvent(function () {
+				var links = document.getElementsByTagName('a');
+				for (var x=0; x < links.length; x++) {
+					if (typeof links[x] == 'undefined') continue;
+					if (typeof links[x].onclick != 'undefined') continue;
+					links[x].onclick = function () {
+						var mydomain = new RegExp(document.domain, 'i');
+						href = getAttr(this, 'href');
+						if(href && href.toLowerCase().indexOf('http') === 0 && !mydomain.test(href)) {
+							recordOutboundLink(this, 'Outbound Links', href);
+						}
+					}
+				}
+			});
+		</script>
+<!-- /all in one seo pack -->
+	<style type="text/css" id="twentyeleven-header-css">
+			#site-title,
+		#site-description {
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+		</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #e2e2e2; }
+</style>
+</head>
+
+<body class="page page-id-1031 page-child parent-pageid-177 page-template-default custom-background singular two-column right-sidebar">
+<div id="page" class="hfeed">
+	<header id="branding" role="banner">
+			<hgroup>
+				<h1 id="site-title"><span><a href="http://ww2.amsat.org/" title="AMSAT-NA" rel="home">AMSAT-NA</a></span></h1>
+				<h2 id="site-description">The Radio Amateur Satellite Corporation</h2>
+			</hgroup>
+
+						<a href="http://ww2.amsat.org/">
+									<img src="http://ww2.amsat.org/wordpress/wp-content/uploads/2013/06/amsat5.png" width="1000" height="213" alt="" />
+							</a>
+			
+							<div class="only-search with-image">
+								</div>
+			
+			<nav id="access" role="navigation">
+				<h3 class="assistive-text">Main menu</h3>
+								<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+				<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+								<div class="menu-amsat-menu-container"><ul id="menu-amsat-menu" class="menu"><li id="menu-item-1240" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1240"><a href="http://ww2.amsat.org/?page_id=1093" >AMSAT</a>
+<ul class="sub-menu">
+	<li id="menu-item-1191" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1191"><a href="http://ww2.amsat.org/?page_id=1093" >About AMSAT</a></li>
+	<li id="menu-item-1519" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1519"><a href="http://ww2.amsat.org/?page_id=1512" >Welcome to AMSAT from the President</a></li>
+	<li id="menu-item-1193" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1193"><a href="http://ww2.amsat.org/?page_id=1094" >A Brief History of AMSAT</a></li>
+	<li id="menu-item-1196" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1196"><a href="http://ww2.amsat.org/?page_id=1095" >Join AMSAT</a></li>
+	<li id="menu-item-1197" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1197"><a href="http://ww2.amsat.org/?page_id=1096" >Volunteer For AMSAT</a></li>
+	<li id="menu-item-1716" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1716"><a href="http://ww2.amsat.org/?page_id=1709" >How to Write for the AMSAT Journal</a></li>
+	<li id="menu-item-1479" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1479"><a href="http://ww2.amsat.org/?page_id=1407" >Notification of Trademark, Copyright and Other Proprietary Information</a></li>
+	<li id="menu-item-1203" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1203"><a href="http://ww2.amsat.org/?page_id=1100" >Contact Us</a></li>
+</ul>
+</li>
+<li id="menu-item-1239" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1239"><a href="http://ww2.amsat.org/?page_id=1102" >Education</a>
+<ul class="sub-menu">
+	<li id="menu-item-1881" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1881"><a href="http://ww2.amsat.org/?page_id=1869" >For Beginners</a></li>
+	<li id="menu-item-1206" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1206"><a href="http://ww2.amsat.org/?page_id=1103" >Outreach</a></li>
+	<li id="menu-item-742" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-742"><a href="http://ariss.org" onclick="javascript:_gaq.push(['_trackEvent','outbound-menu','http://ariss.org']);">ARISS</a></li>
+</ul>
+</li>
+<li id="menu-item-1243" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1243"><a href="http://www.amsat.org/amsat-new/tools/predict/" >Satellite Info</a>
+<ul class="sub-menu">
+	<li id="menu-item-717" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-717"><a href="http://www.amsat.org/amsat-new/tools/predict/" >Pass Predictions</a></li>
+	<li id="menu-item-759" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-759"><a href="http://oscar.dcarr.org/" onclick="javascript:_gaq.push(['_trackEvent','outbound-menu','http://oscar.dcarr.org']);">Current Status</a></li>
+	<li id="menu-item-1208" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-1208"><a href="http://ww2.amsat.org/?page_id=177" >Communications Satellites</a></li>
+	<li id="menu-item-1209" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1209"><a href="http://ww2.amsat.org/?page_id=179" >Telemetry Only Satellites</a></li>
+	<li id="menu-item-716" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-716"><a href="http://www.amsat.org/amsat/keps/" >Keplerian Elements</a></li>
+	<li id="menu-item-1849" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1849"><a href="http://ww2.amsat.org/?page_id=1811" >Tools for Spacecraft and Communication Design</a></li>
+	<li id="menu-item-1935" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1935"><a href="http://ww2.amsat.org/?page_id=1933" >Satellite Related Software</a></li>
+</ul>
+</li>
+<li id="menu-item-1241" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1241"><a href="http://ww2.amsat.org/?page_id=1105" >Services</a>
+<ul class="sub-menu">
+	<li id="menu-item-751" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-751"><a href="http://ww2.amsat.org/?page_id=443" >AMSAT News Service</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1289" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1289"><a href="http://amsat.org/pipermail/ans/" >AMSAT News Service &#038; Weekly Satellite Report Archives</a></li>
+	</ul>
+</li>
+	<li id="menu-item-746" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-746"><a href="http://www.amsat.org/amsat-new/tools/maillist/" >Mailing Lists</a></li>
+	<li id="menu-item-1303" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1303"><a href="http://ww2.amsat.org/?page_id=1107" >Awards</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1394" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1394"><a href="http://ww2.amsat.org/?page_id=1294" >AMSAT Satellite Communication Achievement Award</a></li>
+		<li id="menu-item-1392" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1392"><a href="http://ww2.amsat.org/?page_id=1312" >AMSAT Sexagesimal Award</a></li>
+		<li id="menu-item-1391" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1391"><a href="http://ww2.amsat.org/?page_id=1316" >AMSAT Century Award</a></li>
+		<li id="menu-item-1393" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1393"><a href="http://ww2.amsat.org/?page_id=1309" >South Africa AMSAT Satellite Communication Achievement Award</a></li>
+		<li id="menu-item-1390" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1390"><a href="http://ww2.amsat.org/?page_id=1319" >AMSAT Robert W. Barbee Jr., W4AMI Award</a></li>
+	</ul>
+</li>
+	<li id="menu-item-750" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-750"><a href="http://www.amsat.org/amsat-new/navigator/" >Archive</a></li>
+</ul>
+</li>
+<li id="menu-item-1249" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1249"><a href="http://ww2.amsat.org/?page_id=1113" >Fox Project</a>
+<ul class="sub-menu">
+	<li id="menu-item-1247" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1247"><a href="http://ww2.amsat.org/?page_id=1113" >Meet The Fox Project</a></li>
+	<li id="menu-item-1216" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1216"><a href="http://ww2.amsat.org/?page_id=1118" >Fox Progress</a></li>
+	<li id="menu-item-1220" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1220"><a href="http://ww2.amsat.org/?page_id=1116" >University Participation</a></li>
+	<li id="menu-item-1224" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1224"><a href="http://ww2.amsat.org/?page_id=1117" >Help Build Fox</a></li>
+	<li id="menu-item-1227" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1227"><a href="http://ww2.amsat.org/?page_id=236" >Fox Images</a></li>
+	<li id="menu-item-721" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-721"><a title="Temporary" href="http://ww2.amsat.org/?page_id=261" >Preliminary Fox Keplerian Elements</a></li>
+</ul>
+</li>
+<li id="menu-item-1245" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1245"><a href="http://ww2.amsat.org/?page_id=1110" >Events</a>
+<ul class="sub-menu">
+	<li id="menu-item-1595" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1595"><a href="http://ww2.amsat.org/?page_id=1555" >2014 AMSAT Symposium</a></li>
+	<li id="menu-item-1231" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1231"><a href="http://ww2.amsat.org/?page_id=1111" >Dayton Hamvention</a></li>
+	<li id="menu-item-1229" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1229"><a href="http://ww2.amsat.org/?page_id=1112" >Hamcation</a></li>
+	<li id="menu-item-1230" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1230"><a href="http://ww2.amsat.org/?page_id=216" >Field Day</a></li>
+	<li id="menu-item-1232" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1232"><a href="http://ww2.amsat.org/?page_id=218" >Other Events</a></li>
+</ul>
+</li>
+<li id="menu-item-756" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-756"><a href="http://store.amsat.org/catalog/" >Store</a></li>
+</ul></div>			</nav><!-- #access -->
+	</header><!-- #branding -->
+
+	<div id="main">
+		<div id="primary">
+			<div id="content" role="main">
+
+				
+					
+<article id="post-1031" class="post-1031 page type-page status-publish hentry">
+	<header class="entry-header">
+		<h1 class="entry-title">AO-7</h1>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>Detailed Description<br />
+AMSAT-OSCAR 7 was launched November 15, 1974 by a Delta 2310 launcher from Vandenberg Air Force Base, Lompoc, California. AO-7 was launched piggyback with ITOS-G (NOAA 4) and the Spanish INTASAT. The second phase 2 satellite (Phase II-B). Weight 28.6 kg. Orbit 1444 x 1459 km. Inclination 101.7 degrees. Octahedrally shaped 360 mm high and 424 mm in diameter. Circularly polarized canted turnstile VHF/UHF antenna system and HF dipole.</p>
+<p>Similar to AO-6. Built by a multi-national (German, Canadian, United States, and Australian) team of radio amateurs under the direction of AMSAT-NA. It carried Mode A (145.850-950 MHz uplink and 29.400-500 MHz downlink) and Mode B (432.180-120 MHz uplink and 145.920-980 MHz downlink (inverted)) linear transponders and 29.500 and 145.700 MHz beacons. The 2304.1 MHz was never turned on because of international treaty constraints.</p>
+<p>Four radio masts mounted at 90 degree intervals on the base and two experimental repeater systems provided store-and-forward for morse and teletype messages (Codestore) as it orbited around the world. The Mode-B transponder was designed and build by Karl Meinzer, DJ4ZC and Werner Haas, DJ5KQ. The Mode-B transponder was the first using &#8220;HELAPS&#8221; (High Efficient Linear Amplification by Parametric Synthesis) technology was developed by Dr. Karl Meinzer as part of his Ph.D.</p>
+<p>Spacecraft Description<br />
+AMSAT-OSCAR 7 contains two basic experimental repeater packages, redundant command systems, two experimental telemetry systems, and a store-and-forward message storage unit. The spacecraft is solar powered, weighs 65 pounds, and had a three-year anticipated lifetime at the time it was launched, but it has far outlived this expectation. It contains beacons on 29.50, 145.975, 435.10 and 2304.1 MHz.</p>
+<p>Communications Repeaters<br />
+Two types of communications repeaters are aboard the spacecraft, only one of which operates at a time. The first repeater is a higher power, two-watt version of the one-watt two-to-ten meter linear repeater that flew on the OSCAR 6 mission. This non-inverting transponder receives uplink signals between 145.85 and 145.95 MHz, and retransmits them between 29.4 and 29.5 MHz on the downlink. A 200 milliwatt telemetry beacon provides telemetry data on 29.502 MHz.* Approximately -100 dBm is required at the repeater input terminals for an output of 1 watt. This corresponds to an EIRP from the ground of 90 watts for a distance to the satellite of 2,000 miles and a polarization mismatch of 3 dB.</p>
+<p>The second repeater, constructed by AMSAT Deutschland e.V., AMSAT&#8217;s affiliate in Marbach, West Germany, is a 40-kHz* bandwidth inverting linear repeater. It employs an 8-watt PEP power amplifier using the envelope elimination and restoration technique to maintain linear operation over a wide dynamic range with high efficiency. This repeater has an uplink from 432.125 to 432.175 MHz, and a downlink from 145.975 to 145.925 MHz. Since the uplink band in shared with the radiolocation service, an experimental pulse suppression circuit is incorporated in the repeater to reduce the effects of wideband pulsed radar interference in the uplink. Developmental versions of this repeater have flown in high-altitude balloon experiments in Germany, and aircraft flight tests of the repeater prototype unit. A 200 milliwatt telemetry beacon on 145.975 provides telemetry data. Approximately 50 watts EIRP is required to produce 3 watts of repeater output at a range of 2,000 miles assuming a polarization mismatch of 3 db.</p>
+<p>The two repeaters are operated alternately by means of a timer arrangement, but repeater selection and output power control can also be accomplished by ground command. Each of the repeaters includes a keyed telemetry beacon at the upper edge of the downlink passband to provide housekeeping data and to provide a frequency and amplitude reference marker to assist the amateur in antenna pointing, Doppler frequency compensation, and setting uplink power level. The cross-band 146-to-29.5 and 432-to-146 design of the two repeaters will permit the amateur to monitor his own downlink signal easily, and consequently, he can adjust his power and frequency to continually compensate for changing path loss, repeater loading and Doppler shift.</p>
+<p>Command System<br />
+Redundant command decoders of a design similar to the unit proven highly successful in OSCAR 6 were flown. The decoder has provisions for 35 separate functions, and is designed to provide a reliable means of controlling the emissions of the repeaters, beacons and other experiments aboard the spacecraft.</p>
+<p>Telemetry and Message Storage Systems<br />
+AMSAT-OSCAR 7 contains two experimental telemetry systems designed for use with simple ground terminal equipment. The first system, developed by the WIA-Project Australis group in Australia, telemeters 60 parameters in 850-Hz shift, 60 WPM five-level Baudot teletype code to permit printout on standard teletype equipment in a format readily convertible for direct processing by small digital computer. The second system telemeters 24 parameters as numbers in standard Morse code and can be received with pencil and paper. This system was used on OSCAR 6 and proved highly successful as a reliable means of obtaining real-time telemetry data.</p>
+<p>An experimental Morse code message storage unit, Codestore, capable of storing and repeatedly retransmitting 18-word Morse code messages loaded by ground stations is also aboard AMSAT-OSCAR 7. This unit was first flown on OSCAR 6. This unit is not currently in use, and it is unclear if it is still operational.</p>
+<p>The teletype telemetry encoder amplitude-modulates telemetry beacons on 29.50 MHz (200 mW), 145.98 MHz (200 mW) and frequency-shift keys the beacon on 435.10 MHz (300-400 mW), as selected by ground command. The Morse code telemetry encoder and Codestore message storage unit directly key these beacons as selected by ground command. However, at the present time, the satellite is not being actively commanded by a ground station, so these telemetry systems are not being activated.</p>
+<p>Current Operational State<br />
+AO-7 became non-operational in mid 1981 due to battery failure . In 2002 one of the shorted batteries became an open and now the spacecraft is able to run off solar panels. For this reason it is not usable in eclipse and may not be able to supply enough power to the transmitter to keep from frequency modulating the signal. When continuously illuminated, the mode will alternate between A and B every 24 hours.</p>
+<p>Mode V/A (A) Linear Transponder (Non-Inverting):<br />
+Uplink: 145.8500 &#8211; 145.9500 MHz SSB/CW<br />
+Downlink 29.4000 &#8211; 29.5000 MHz SSB/CW</p>
+<p>Mode V/A (A) TLM Beacon:<br />
+Downlink 29.5020 MHz CW</p>
+<p>Mode U/V (B) Linear Transponder (Inverting):<br />
+Uplink: 432.1250 &#8211; 432.1750 MHz SSB/CW<br />
+Downlink 145.9750 &#8211; 145.9250 MHz SSB/CW</p>
+<p><span style="color: #ff0000;"><em><strong>(Note: The 432 MHz uplink on AO-7 was designed before implementation of the 435-438 MHz satellite subband. Operation in the US is currently grandfathered under a waiver from the FCC, included at the bottom of this page.)</strong></em></span></p>
+<p>Mode U/V (B) TLM Beacon:<br />
+Downlink 145.9775 MHz CW</p>
+<p>Mode U TLM Beacon<br />
+Downlink 435.1000 MHz CW</p>
+<p style="text-align: center;"><a href="http://ww2.amsat.org/wordpress/wp-content/uploads/2013/07/ao-7.gif" ><img class=" wp-image-1032 aligncenter" alt="ao-7" src="http://ww2.amsat.org/wordpress/wp-content/uploads/2013/07/ao-7.gif" width="441" height="273" /></a>:</p>
+<p style="text-align: center;"><a href="http://ww2.amsat.org/wordpress/wp-content/uploads/2013/07/FCC_AO7_waiver-19740419.jpg" ><img class="alignnone size-large wp-image-1819" alt="FCC_AO7_waiver-19740419" src="http://ww2.amsat.org/wordpress/wp-content/uploads/2013/07/FCC_AO7_waiver-19740419-791x1024.jpg" width="584" height="756" /></a></p>
+			</div><!-- .entry-content -->
+	<footer class="entry-meta">
+			</footer><!-- .entry-meta -->
+</article><!-- #post-1031 -->
+
+						<div id="comments">
+	
+	
+	
+			
+</div><!-- #comments -->
+
+				
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+
+	</div><!-- #main -->
+
+	<footer id="colophon" role="contentinfo">
+
+			
+
+			<div id="site-generator">
+								<a href="http://wordpress.org/" title="Semantic Personal Publishing Platform">Proudly powered by WordPress</a>
+			</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<style>.cpm-map img{ max-width: none;box-shadow:none;}</style><script type='text/javascript' src='http://ww2.amsat.org/wordpress/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.46.0-2013.11.21'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/ww2.amsat.org\/wordpress\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://ww2.amsat.org/wordpress/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=3.6'></script>
+
+</body>
+</html>
