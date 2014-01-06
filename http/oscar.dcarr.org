@@ -1,0 +1,1405 @@
+<html>
+<head>
+<title>OSCAR Satellite Status page by KD5QGR</title>
+
+<style type="text/css">
+<!--
+
+.tipClass { font: 14px Arial, Helvetica; color: white }
+
+-->
+</style>
+
+</head>
+
+<body link="black" alink="black" vlink="black">
+<center><font size=5><b>Live OSCAR Satellite Status Page</b></font></center>
+<br>
+<center>
+<table width="75%">
+<tr><td>
+This web page was created to give a single global reference point for all
+users in the Amateur Satellite Service to show the most up-to-date status
+of all satellites as actually reported in real time by users around the
+world.  Please help others and keep it current every time you access a
+bird.
+</td></tr>
+<tr><td>
+If you want to practice reporting without affecting the real data,
+please select the dummy-satellites AO-98 and AO-99.
+</td></tr>
+<tr><td>
+<br>Thanks and 73s,
+<br>David Carr, KD5QGR --at-- dcarr.org, Site Development
+<br>Bob Bruninga, WB4APR --at-- amsat.org, USNA Satellite Ground Station
+</td></tr>
+</table>
+</center>
+
+<br><center>
+<table border=0><tr><td bgcolor="4169E1"><b>Transponder/Repeater active</b></td><td bgcolor="yellow"><b>Telemetry/Beacon only</b></td><td bgcolor="red"><b>No signal</b></td><td bgcolor="orange"><b>Conflicting reports</b></td><td bgcolor="#9900FF"><b>ISS Crew (Voice) Active</b></td></tr></table>
+</center>
+
+<!--- BEGIN MAIN SAT CHART -->
+
+<!--       TIPSTER v3.0        -->
+<!--     by Angus Turnbull      -->
+<!--  http://www.twinhelix.com  -->
+<!--   Visit for more scripts!  -->
+
+<script language="JavaScript"><!--
+
+// *** COMMON CROSS-BROWSER COMPATIBILITY CODE ***
+
+var isDOM=document.getElementById?1:0;
+var isIE=document.all?1:0;
+var isNS4=navigator.appName=='Netscape'&&!isDOM?1:0;
+var isOp=window.opera?1:0;
+var isWin=navigator.platform.indexOf('Win')!=-1?1:0;
+var isDyn=isDOM||isIE||isNS4;
+
+
+function getRef(id, par)
+{
+ par=!par?document:(par.navigator?par.document:par);
+ return isIE ? par.all[id] :
+  (isDOM ? (par.getElementById?par:par.ownerDocument).getElementById(id) :
+  (isNS4 ? par.layers[id] : null));
+}
+
+function getSty(id, par)
+{
+ var r=getRef(id, par);
+ return r?(isNS4?r:r.style):null;
+}
+
+
+if (!window.LayerObj) var LayerObj = new Function('id', 'par',
+ 'this.ref=getRef(id, par); this.sty=getSty(id, par); return this');
+function getLyr(id, par) { return new LayerObj(id, par) }
+
+function LyrFn(fn, fc)
+{
+ LayerObj.prototype[fn] = new Function('var a=arguments,p=a[0],px=isNS4||isOp?0:"px"; ' +
+  'with (this) { '+fc+' }');
+}
+LyrFn('x','if (!isNaN(p)) sty.left=p+px; else return parseInt(sty.left)');
+LyrFn('y','if (!isNaN(p)) sty.top=p+px; else return parseInt(sty.top)');
+LyrFn('w','if (p) (isNS4?sty.clip:sty).width=p+px; ' +
+ 'else return (isNS4?ref.document.width:ref.offsetWidth)');
+LyrFn('h','if (p) (isNS4?sty.clip:sty).height=p+px; ' +
+ 'else return (isNS4?ref.document.height:ref.offsetHeight)');
+LyrFn('vis','sty.visibility=p');
+LyrFn('write','if (isNS4) with (ref.document){write(p);close()} else ref.innerHTML=p');
+LyrFn('alpha','var f=ref.filters,d=(p==null); if (f) {' +
+ 'if (!d&&sty.filter.indexOf("alpha")==-1) sty.filter+=" alpha(opacity="+p+")"; ' +
+ 'else if (f.length&&f.alpha) with(f.alpha){if(d)enabled=false;else{opacity=p;enabled=true}} }' +
+ 'else if (isDOM) sty.MozOpacity=d?"":p+"%"');
+
+
+var CSSmode=document.compatMode;
+CSSmode=(CSSmode&&CSSmode.indexOf('CSS')!=-1)||isDOM&&!isIE||isOp?1:0;
+
+if (!window.page) var page = { win: window, minW: 0, minH: 0, MS: isIE&&!isOp,
+ db: CSSmode?'documentElement':'body' }
+
+page.winW=function()
+ { with (this) return Math.max(minW, MS?win.document[db].clientWidth:win.innerWidth) }
+page.winH=function()
+ { with (this) return Math.max(minH, MS?win.document[db].clientHeight:win.innerHeight) }
+
+page.scrollY=function()
+ { with (this) return MS?win.document[db].scrollTop:win.pageYOffset }
+page.scrollX=function()
+ { with (this) return MS?win.document[db].scrollLeft:win.pageXOffset }
+
+// *** TIP FUNCTIONS AND OBJECT ***
+
+function tipTrack(evt, always) { with (this)
+{
+ // Reference the correct event object.
+ evt=evt?evt:window.event;
+
+ // Figure out the mouse co-ordinates and call the position function.
+ // Also set sX and sY as the scroll position of the document.
+ sX = page.scrollX();
+ sY = page.scrollY();
+ mX = isNS4 ? evt.pageX : sX + evt.clientX;
+ mY = isNS4 ? evt.pageY : sY + evt.clientY;
+
+ // If we've set tip tracking, call the position function.
+ if (tipStick == 1) position();
+}}
+
+function tipPosition(forcePos) { with (this)
+{
+ // Can't position a tip if there isn't one available...
+ if (!actTip) return;
+
+ // Pull the window sizes from the page object.
+ // In NS we size down the window a little as it includes scrollbars.
+ var wW = page.winW()-(isIE?0:15), wH = page.winH()-(isIE?0:15);
+
+ // Pull the compulsory information out of the tip array.
+ var t=tips[actTip], tipX=eval(t[0]), tipY=eval(t[1]), tipW=div.w(), tipH=div.h(), adjY = 1;
+
+ // Add mouse position onto relatively positioned tips.
+ if (typeof(t[0])=='number') tipX += mX;
+ if (typeof(t[1])=='number') tipY += mY;
+
+ // Check the tip is not within 5px of the screen boundaries.
+ if (tipX + tipW + 5 > sX + wW) { tipX = sX + wW - tipW - 5; adjY = 2 }
+ if (tipY + tipH + 5 > sY + wH) tipY = sY + wH - (adjY*tipH) - 5;
+ if (tipX < sX+ 5) tipX = sX + 5;
+ if (tipY < sY + 5) tipY = sY + 5;
+
+ // If the tip is currently invisible, show at the calculated position.
+ // Also do this if we're passed the 'forcePos' parameter.
+ if ((!showTip && (doFades ? !alpha : true)) || forcePos)
+ {
+  xPos = tipX;
+  yPos = tipY;
+ }
+
+ // Otherwise move the tip towards the calculated position by the stickiness factor.
+ // Low stickinesses will result in slower catchup times.
+ xPos += (tipX - xPos) * tipStick;
+ yPos += (tipY - yPos) * tipStick;
+
+ div.x(xPos);
+ div.y(yPos);
+}}
+
+function tipShow(tipN) { with (this)
+{
+ if (!isDyn) return;
+
+ // If this tip is nested, call the 'show' function of its parent too.
+ if (tips[tipN].parentObj) tips[tipN].parentObj.show(tips[tipN].parentTip);
+
+ // My layer object we use.
+ if (!div) div = getLyr(myName + 'Layer');
+ 
+ // IE4 requires a small width set otherwise tip divs expand to full body size.
+ if (isDOM) div.sty.width = 'auto';
+
+ // If we're mousing over a different or new tip...
+ if (actTip != tipN)
+ {
+  // Remember this tip number as active, for the other functions.
+  actTip = tipN;
+
+  // Set tip's onmouseover and onmouseout handlers for static tips.
+  if (tipStick == 0)
+  {
+   if (isNS4) div.ref.captureEvents(Event.MOUSEOVER | Event.MOUSEOUT);
+   div.ref.onmouseover = new Function('evt', myName + '.show("' + tipN + '"); ' +
+    'if (isNS4) return this.routeEvent(evt)');
+   div.ref.onmouseout = new Function('evt', myName + '.hide(); ' +
+   'if (isNS4) return this.routeEvent(evt)');
+  }
+
+  // Place it somewhere onscreen - pass true to force a complete reposition.
+  position(true);
+
+  // Go through and replace %0% with the array's 0 index, %1% with tips[tipN][1] etc...
+  var str = template;
+  for (var i=0; i<tips[tipN].length; i++) str = str.replace('%'+i+'%', tips[tipN][i]);
+  // Write the proper content... the last <br> strangely helps IE5/Mac...?
+  div.write(str + ((document.all && !isWin) ? '<small><br></small>' : ''));
+ }
+
+ // For non-integer stickiness values, we need to use setInterval to animate the tip,
+ // if it's 0 or 1 we can just use onmousemove to position it.
+ clearInterval(trackTimer);
+ if (tipStick != parseInt(tipStick)) trackTimer = setInterval(myName+'.position()', 50);
+
+ // Finally either fade in immediately or after 'showDelay' milliseconds.
+ // NS4 must always delay by a small amount as sometimes hide events come before show events
+ // from a previous mouseout (when two tip triggers overlap), because it's a weird browser.
+ // So, this show call can cancel a (slightly later) hide.
+ clearTimeout(fadeTimer);
+ if (showDelay || isNS4)
+  fadeTimer = setTimeout('with ('+myName+') { showTip = true; fade() }', showDelay + 10);
+ else { showTip = true; fade() }
+}}
+
+
+function tipHide() { with (this)
+{
+ // We've got to be a DHTML-capable browser that has a tip currently active.
+ if (!isDyn || !actTip) return;
+
+ // If the mouse position is within the tip boundaries, we know NS4 is telling us stories
+ // as often it makes hide events unaccompanied by overs or in a weird order.
+ // Only applies to static tips that we want the user to mouseover...
+ if (isNS4 && tipStick==0 && xPos<=mX && mX<=xPos+div.w() && yPos<=mY && mY<=yPos+div.h())
+  return;
+
+ // If this tip is nested, call the 'hide' function of its parent too.
+ if (tips[actTip].parentObj) tips[actTip].parentObj.hide();
+
+ // Fade out after a delay so another mouseover can cancel this fade.
+ // This allows the user to mouseover a static tip before its hides.
+ clearTimeout(fadeTimer);
+ fadeTimer = setTimeout('with (' + myName + ') { showTip=false; fade() }', hideDelay);
+}}
+
+
+function tipFade() { with (this)
+{
+ // Clear to stop existing fades.
+ clearTimeout(fadeTimer);
+
+ // Show it and optionally increment alpha from minAlpha to maxAlpha or back again.
+ if (showTip)
+ {
+  div.vis('visible');
+  if (doFades)
+  {
+   alpha += fadeSpeed;
+   if (alpha > maxAlpha) alpha = maxAlpha;
+   div.alpha(alpha);
+   // Call this function again shortly, fading tip in further.
+   if (alpha < maxAlpha) fadeTimer = setTimeout(myName + '.fade()', 50);
+  }
+ }
+
+ else
+ {
+  // Similar to before but counting down and hiding at the end.
+  if (doFades && alpha > minAlpha)
+  {
+   alpha -= fadeSpeed;
+   if (alpha < minAlpha) alpha = minAlpha;
+   div.alpha(alpha);
+   fadeTimer = setTimeout(myName + '.fade()', 50);
+   return;
+  }
+  div.vis('hidden');
+  // Clear the active tip flag so it is repositioned next time.
+  actTip = '';
+  // Stop any sticky-tip tracking if it's invisible.
+  clearInterval(trackTimer);
+ }
+}}
+
+
+function TipObj(myName)
+{
+ // Holds the properties the functions above use.
+ this.myName = myName;
+ this.tips = new Array();
+ this.template = '';
+ this.actTip = '';
+ this.showTip = false;
+ this.tipStick = 0;
+ this.showDelay = 50;
+ this.hideDelay = 50;
+ this.xPos = this.yPos = this.sX = this.sY = this.mX = this.mY = 0;
+
+ this.track = tipTrack;
+ this.position = tipPosition;
+ this.show = tipShow;
+ this.hide = tipHide;
+ this.fade = tipFade;
+ 
+ this.div = null;
+ this.trackTimer = this.fadeTimer = 0;
+ this.alpha = 0;
+ this.doFades = true;
+ this.minAlpha = 0;
+ this.maxAlpha = 100;
+ this.fadeSpeed = 10;
+}
+
+
+<!-- mystuff now -->
+
+var docTips = new TipObj('docTips');
+with (docTips)
+{
+
+tips.a239445 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>16:00-:15 UTC');
+tips.a239444 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>15:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>14:16-:30 UTC');
+tips.a239380 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>11:00-:15 UTC');
+tips.a239358 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>9:16-:30 UTC');
+tips.a239277 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>16:31-:45 UTC');
+tips.a239268 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>14:31-:45 UTC');
+tips.a239259 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>13:00-:15 UTC');
+tips.a239232 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>8:00-:15 UTC');
+tips.a239163 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>18:16-:30 UTC');
+tips.a239152 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>16:31-:45 UTC');
+tips.a239142 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>14:46-:59 UTC');
+tips.a239133 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>13:16-:30 UTC');
+tips.a239114 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>11:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>10:00-:15 UTC');
+tips.a239078 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>8:16-:30 UTC');
+tips.a239058 = new Array( 5, 5, 120, 'Telemetry Only<br>HK3Z<br>2014-01-03<br>1:31-:45 UTC');
+tips.a238985 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>15:16-:30 UTC');
+tips.a238968 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>12:00-:15 UTC');
+tips.a238943 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>10:16-:30 UTC');
+tips.a238930 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>8:46-:59 UTC');
+tips.a238840 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>15:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>14:00-:15 UTC');
+tips.a238798 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>10:46-:59 UTC');
+tips.a238780 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>9:00-:15 UTC');
+tips.a239511 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-06<br>5:16-:30 UTC');
+tips.a239502 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-06<br>3:16-:30 UTC');
+tips.a239319 = new Array( 5, 5, 120, 'Heard<br>KC4LE<br>2014-01-04<br>22:00-:15 UTC');
+tips.a239372 = new Array( 5, 5, 120, 'Heard<br>DV4RER<br>2014-01-04<br>21:00-:15 UTC');
+tips.a239292 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>16:31-:45 UTC<br><br>Heard<br>F0FIG<br>2014-01-04<br>16:31-:45 UTC');
+tips.a239258 = new Array( 5, 5, 120, 'Heard<br>W7JPI<br>2014-01-04<br>13:00-:15 UTC');
+tips.a239213 = new Array( 5, 5, 120, 'Heard<br>F0FIG<br>2014-01-04<br>7:16-:30 UTC');
+tips.a239050 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-02<br>22:16-:30 UTC');
+tips.a239051 = new Array( 5, 5, 120, 'Heard<br>DV4RER<br>2014-01-02<br>21:00-:15 UTC');
+tips.a239032 = new Array( 5, 5, 120, 'Heard<br>DG1EA<br>2014-01-02<br>16:31-:45 UTC<br><br>Heard<br>UR5MQD<br>2014-01-02<br>16:31-:45 UTC<br><br>Heard<br>F0FIG<br>2014-01-02<br>16:31-:45 UTC<br><br>Heard<br>F6ADB<br>2014-01-02<br>16:46-:59 UTC');
+tips.a239029 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>14:46-:59 UTC<br><br>Heard<br>F0FIG<br>2014-01-02<br>14:46-:59 UTC');
+tips.a238977 = new Array( 5, 5, 120, 'Heard<br>W7JPI<br>2014-01-02<br>13:16-:30 UTC');
+tips.a238961 = new Array( 5, 5, 120, 'Heard<br>ON4HF<br>2014-01-02<br>11:00-:15 UTC');
+tips.a238919 = new Array( 5, 5, 120, 'Heard<br>DC3RJ<br>2014-01-02<br>5:31-:45 UTC');
+tips.a238758 = new Array( 5, 5, 120, 'Heard<br>DG1EA<br>2014-01-01<br>2:46-:59 UTC');
+tips.a239510 = new Array( 5, 5, 120, 'Not Heard<br>UA9CS<br>2014-01-06<br>5:16-:30 UTC');
+tips.a239488 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-05<br>21:16-:30 UTC<br><br>Heard<br>NJ1H<br>2014-01-05<br>21:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>21:00-:15 UTC<br><br>Heard<br>PU2RAS<br>2014-01-05<br>21:00-:15 UTC<br><br>Heard<br>PY2SAD<br>2014-01-05<br>20:46-:59 UTC');
+tips.a239477 = new Array( 5, 5, 120, 'Heard<br>NJ1H<br>2014-01-05<br>19:31-:45 UTC');
+tips.a239468 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>17:16-:30 UTC<br><br>Heard<br>OM3CLS<br>2014-01-05<br>17:16-:30 UTC');
+tips.a239446 = new Array( 5, 5, 120, 'Heard<br>PE1NIL<br>2014-01-05<br>15:31-:45 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>14:00-:15 UTC');
+tips.a239421 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>13:46-:59 UTC<br><br>Heard<br>SQ9MES<br>2014-01-05<br>13:46-:59 UTC<br><br>Heard<br>OM3WAK<br>2014-01-05<br>13:31-:45 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>13:31-:45 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>13:46-:59 UTC<br><br>Heard<br>MI0VAX<br>2014-01-05<br>13:46-:59 UTC<br><br>Heard<br>MI0VAX<br>2014-01-05<br>13:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>12:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>12:00-:15 UTC');
+tips.a239393 = new Array( 5, 5, 120, 'Heard<br>LA5PBA<br>2014-01-05<br>11:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>11:46-:59 UTC<br><br>Heard<br>SP9TTX<br>2014-01-05<br>10:00-:15 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>10:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>10:00-:15 UTC');
+tips.a239365 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-05<br>9:46-:59 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>8:16-:30 UTC');
+tips.a239341 = new Array( 5, 5, 120, 'Heard<br>EI3GYB<br>2014-01-05<br>6:31-:45 UTC<br><br>Not Heard<br>DL7FB<br>2014-01-05<br>6:16-:30 UTC<br><br>Heard<br>UA9CS<br>2014-01-05<br>6:16-:30 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>6:16-:30 UTC');
+tips.a239334 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>4:16-:30 UTC<br><br>Heard<br>UA9CS<br>2014-01-05<br>4:16-:30 UTC');
+tips.a239208 = new Array( 5, 5, 120, 'Not Heard<br>UR5MQD<br>2014-01-04<br>5:16-:30 UTC<br><br>Not Heard<br>UA9CS<br>2014-01-04<br>5:16-:30 UTC');
+tips.a239194 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-03<br>23:00-:15 UTC<br><br>Heard<br>KC7MG-DM42<br>2014-01-03<br>23:00-:15 UTC');
+tips.a239192 = new Array( 5, 5, 120, 'Heard<br>KC9ELU<br>2014-01-03<br>21:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-03<br>21:16-:30 UTC');
+tips.a239169 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>15:31-:45 UTC<br><br>Heard<br>OM3WAK<br>2014-01-03<br>15:31-:45 UTC<br><br>Heard<br>G8KEK<br>2014-01-03<br>15:31-:45 UTC<br><br>Heard<br>DL7FB<br>2014-01-03<br>15:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-03<br>14:00-:15 UTC');
+tips.a239171 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>13:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>13:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-03<br>12:00-:15 UTC<br><br>Heard<br>DG4YDF<br>2014-01-03<br>12:00-:15 UTC<br><br>Heard<br>DG1EA<br>2014-01-03<br>12:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>12:00-:15 UTC');
+tips.a239117 = new Array( 5, 5, 120, 'Heard<br>LA5PBA<br>2014-01-03<br>11:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>11:46-:59 UTC<br><br>Heard<br>N8IGJ<br>2014-01-03<br>10:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>10:00-:15 UTC<br><br>Heard<br>DG4YDF<br>2014-01-03<br>10:00-:15 UTC');
+tips.a239076 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-03<br>8:00-:15 UTC<br><br>Heard<br>R1NW<br>2014-01-03<br>8:16-:30 UTC');
+tips.a239065 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>4:31-:45 UTC<br><br>Heard<br>UA9CS<br>2014-01-03<br>4:31-:45 UTC');
+tips.a238914 = new Array( 5, 5, 120, 'Not Heard<br>UA9CS<br>2014-01-02<br>3:31-:45 UTC<br><br>Not Heard<br>UA9CS<br>2014-01-02<br>3:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-02<br>3:31-:45 UTC');
+tips.a238898 = new Array( 5, 5, 120, 'Heard<br>KC7MG-DM42<br>2014-01-01<br>23:00-:15 UTC');
+tips.a238882 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>17:31-:45 UTC<br><br>Heard<br>KC9ELU<br>2014-01-01<br>17:46-:59 UTC<br><br>Heard<br>OM3CLS<br>2014-01-01<br>17:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>17:31-:45 UTC<br><br>Heard<br>TR8CA<br>2014-01-01<br>17:16-:30 UTC');
+tips.a238839 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>15:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-01<br>14:16-:30 UTC');
+tips.a238822 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>13:46-:59 UTC<br><br>Heard<br>SQ9MES<br>2014-01-01<br>13:46-:59 UTC<br><br>Heard<br>K9CIS<br>2014-01-01<br>12:16-:30 UTC<br><br>Heard<br>OM3CLS<br>2014-01-01<br>12:00-:15 UTC<br><br>Heard<br>DG4YDF<br>2014-01-01<br>12:00-:15 UTC<br><br>Heard<br>SP9TTX<br>2014-01-01<br>12:00-:15 UTC<br><br>Heard<br>UA4CRI<br>2014-01-01<br>12:00-:15 UTC');
+tips.a238807 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>11:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>10:00-:15 UTC');
+tips.a238792 = new Array( 5, 5, 120, 'Heard<br>OH2FQV<br>2014-01-01<br>8:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>8:16-:30 UTC');
+tips.a238767 = new Array( 5, 5, 120, 'Heard<br>UA9CS<br>2014-01-01<br>4:31-:45 UTC');
+tips.a238759 = new Array( 5, 5, 120, 'Not Heard<br>UA9CS<br>2014-01-01<br>2:16-:30 UTC');
+tips.a239490 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>22:00-:15 UTC');
+tips.a239473 = new Array( 5, 5, 120, 'Telemetry Only<br>DL7FB<br>2014-01-05<br>18:46-:59 UTC');
+tips.a239458 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>17:16-:30 UTC');
+tips.a239280 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>16:31-:45 UTC');
+tips.a239219 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>8:00-:15 UTC');
+tips.a239046 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>21:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>20:00-:15 UTC');
+tips.a238813 = new Array( 5, 5, 120, 'Telemetry Only<br>HK3Z<br>2014-01-01<br>12:31-:45 UTC');
+tips.a239387 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-05<br>11:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>11:16-:30 UTC');
+tips.a239360 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>9:31-:45 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-05<br>8:16-:30 UTC');
+tips.a239289 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>17:16-:30 UTC');
+tips.a239255 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>12:31-:45 UTC');
+tips.a239246 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-04<br>11:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>11:00-:15 UTC');
+tips.a239227 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:16-:30 UTC');
+tips.a239216 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>7:46-:59 UTC');
+tips.a239165 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>18:31-:45 UTC');
+tips.a239124 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>12:16-:30 UTC');
+tips.a239106 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-03<br>10:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>10:31-:45 UTC');
+tips.a239085 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-03<br>9:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>9:00-:15 UTC');
+tips.a239043 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>21:16-:30 UTC');
+tips.a239030 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>19:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>18:16-:30 UTC');
+tips.a238967 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>12:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-02<br>12:00-:15 UTC');
+tips.a238948 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>10:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>10:16-:30 UTC');
+tips.a238927 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>8:46-:59 UTC');
+tips.a238902 = new Array( 5, 5, 120, 'Telemetry Only<br>JA0CAW<br>2014-01-02<br>0:31-:45 UTC');
+tips.a238890 = new Array( 5, 5, 120, 'Telemetry Only<br>G3CWV<br>2014-01-01<br>21:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-01<br>21:00-:15 UTC<br><br>Telemetry Only<br>GW1FKY<br>2014-01-01<br>21:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>21:00-:15 UTC');
+tips.a238868 = new Array( 5, 5, 120, 'Not Heard<br>G3CWV<br>2014-01-01<br>19:31-:45 UTC<br><br>Not Heard<br>G3CWV<br>2014-01-01<br>18:00-:15 UTC');
+tips.a239366 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-05<br>10:00-:15 UTC');
+tips.a239237 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-04<br>10:31-:45 UTC');
+tips.a238962 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>11:46-:59 UTC');
+tips.a238934 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>9:31-:45 UTC');
+tips.a238811 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-01<br>12:16-:30 UTC');
+tips.a239478 = new Array( 5, 5, 120, 'Telemetry Only<br>W5SXD<br>2014-01-05<br>19:46-:59 UTC');
+tips.a239376 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>10:16-:30 UTC');
+tips.a239320 = new Array( 5, 5, 120, 'Telemetry Only<br>K7IP<br>2014-01-04<br>22:00-:15 UTC');
+tips.a239240 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>10:46-:59 UTC');
+tips.a239225 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:00-:15 UTC');
+tips.a239214 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>7:31-:45 UTC');
+tips.a239073 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>8:00-:15 UTC');
+tips.a238944 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>10:00-:15 UTC');
+tips.a238823 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>13:46-:59 UTC');
+tips.a238795 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>10:31-:45 UTC');
+tips.a238779 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>8:46-:59 UTC');
+tips.a239509 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-06<br>5:00-:15 UTC<br><br>Heard<br>UA9CS<br>2014-01-06<br>5:00-:15 UTC');
+tips.a239501 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-06<br>3:16-:30 UTC<br><br>Heard<br>NX9G<br>2014-01-06<br>3:00-:15 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-06<br>2:46-:59 UTC');
+tips.a239479 = new Array( 5, 5, 120, 'Heard<br>EI5KJ<br>2014-01-05<br>19:46-:59 UTC<br><br>Heard<br>LZ1KG<br>2014-01-05<br>18:00-:15 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>18:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>18:00-:15 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>18:00-:15 UTC');
+tips.a239450 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-05<br>16:16-:30 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>16:16-:30 UTC');
+tips.a239455 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-05<br>14:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>14:31-:45 UTC<br><br>Heard<br>KC4LE<br>2014-01-05<br>15:00-:15 UTC<br><br>Heard<br>KC7MG-DM42<br>2014-01-05<br>14:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>14:31-:45 UTC');
+tips.a239420 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>12:46-:59 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>13:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>12:46-:59 UTC<br><br>Heard<br>OH8MBN<br>2014-01-05<br>12:46-:59 UTC');
+tips.a239381 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-05<br>11:00-:15 UTC<br><br>Heard<br>PU2RAS<br>2014-01-05<br>10:00-:15 UTC');
+tips.a239357 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-05<br>9:16-:30 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>9:31-:45 UTC<br><br>Heard<br>EI3GYB<br>2014-01-05<br>8:00-:15 UTC');
+tips.a239351 = new Array( 5, 5, 120, 'Heard<br>F0FIG<br>2014-01-05<br>7:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>6:00-:15 UTC<br><br>Heard<br>UA9CS<br>2014-01-05<br>6:00-:15 UTC');
+tips.a239324 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-05<br>1:46-:59 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>0:16-:30 UTC');
+tips.a239315 = new Array( 5, 5, 120, 'Heard<br>EI3GYB<br>2014-01-04<br>19:00-:15 UTC<br><br>Heard<br>LZ1KG<br>2014-01-04<br>19:00-:15 UTC<br><br>Heard<br>UR5MQD<br>2014-01-04<br>19:00-:15 UTC');
+tips.a239295 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>17:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-04<br>17:00-:15 UTC');
+tips.a239293 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>15:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-04<br>15:46-:59 UTC<br><br>Heard<br>KC7MG-DM42<br>2014-01-04<br>15:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-04<br>15:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-04<br>14:00-:15 UTC');
+tips.a239296 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>13:46-:59 UTC<br><br>Heard<br>UA9CS<br>2014-01-04<br>13:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-04<br>13:46-:59 UTC<br><br>Heard<br>UA9CS<br>2014-01-04<br>12:00-:15 UTC');
+tips.a239236 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-04<br>10:16-:30 UTC');
+tips.a239222 = new Array( 5, 5, 120, 'Heard<br>LZ1KG<br>2014-01-04<br>8:31-:45 UTC<br><br>Heard<br>UA9CS<br>2014-01-04<br>8:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-04<br>8:31-:45 UTC');
+tips.a239204 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>5:16-:30 UTC<br><br>Heard<br>N6EMP<br>2014-01-04<br>4:16-:30 UTC');
+tips.a239207 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>3:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-04<br>2:46-:59 UTC');
+tips.a239197 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-04<br>1:00-:15 UTC');
+tips.a239172 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>18:00-:15 UTC<br><br>Heard<br>LZ1KG<br>2014-01-03<br>18:00-:15 UTC<br><br>Heard<br>SQ9MES<br>2014-01-03<br>18:16-:30 UTC<br><br>Heard<br>YO9CMC<br>2014-01-03<br>18:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>18:00-:15 UTC');
+tips.a239173 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>16:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>16:16-:30 UTC<br><br>Heard<br>YO9CMC<br>2014-01-03<br>16:16-:30 UTC');
+tips.a239143 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-03<br>15:00-:15 UTC<br><br>Heard<br>KC7MG-DM42<br>2014-01-03<br>15:00-:15 UTC');
+tips.a239132 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-03<br>13:00-:15 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-03<br>13:00-:15 UTC');
+tips.a239094 = new Array( 5, 5, 120, 'Not Heard<br>EI5KJ<br>2014-01-03<br>9:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>9:31-:45 UTC<br><br>Heard<br>F0FIG<br>2014-01-03<br>8:00-:15 UTC<br><br>Heard<br>EA8HB<br>2014-01-03<br>8:00-:15 UTC');
+tips.a239071 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-03<br>7:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-03<br>6:16-:30 UTC');
+tips.a239061 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-03<br>2:00-:15 UTC');
+tips.a239056 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-03<br>0:16-:30 UTC');
+tips.a239040 = new Array( 5, 5, 120, 'Heard<br>PE1BVQ<br>2014-01-02<br>21:00-:15 UTC<br><br>Heard<br>EI5KJ<br>2014-01-02<br>20:46-:59 UTC');
+tips.a239025 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>19:00-:15 UTC<br><br>Heard<br>LZ1KG<br>2014-01-02<br>19:00-:15 UTC');
+tips.a239023 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>17:16-:30 UTC<br><br>Heard<br>LZ1KG<br>2014-01-02<br>17:16-:30 UTC<br><br>Heard<br>YO9CMC<br>2014-01-02<br>17:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>17:16-:30 UTC<br><br>Heard<br>OM0AAO<br>2014-01-02<br>17:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-02<br>16:00-:15 UTC');
+tips.a238999 = new Array( 5, 5, 120, 'Heard<br>YO9CMC<br>2014-01-02<br>15:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>15:31-:45 UTC');
+tips.a238979 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-02<br>13:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>12:00-:15 UTC');
+tips.a238969 = new Array( 5, 5, 120, 'Heard<br>7K4GUR<br>2014-01-02<br>11:46-:59 UTC<br><br>Heard<br>F0FIG<br>2014-01-02<br>10:16-:30 UTC<br><br>Heard<br>OH8MBN<br>2014-01-02<br>10:16-:30 UTC');
+tips.a238956 = new Array( 5, 5, 120, 'Heard<br>F0FIG<br>2014-01-02<br>8:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>8:46-:59 UTC<br><br>Heard<br>HA5AJZ<br>2014-01-02<br>8:46-:59 UTC<br><br>Heard<br>LZ1KG<br>2014-01-02<br>8:46-:59 UTC');
+tips.a238910 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>3:31-:45 UTC');
+tips.a238918 = new Array( 5, 5, 120, 'Heard<br>KD8BIN<br>2014-01-02<br>1:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-02<br>1:00-:15 UTC');
+tips.a238875 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>20:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>20:00-:15 UTC');
+tips.a238889 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>16:16-:30 UTC<br><br>Heard<br>W7BDB<br>2014-01-01<br>17:00-:15 UTC<br><br>Heard<br>DG1EA<br>2014-01-01<br>16:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>16:31-:45 UTC<br><br>Heard<br>OH8MBN<br>2014-01-01<br>16:16-:30 UTC');
+tips.a238838 = new Array( 5, 5, 120, 'Heard<br>W7BDB<br>2014-01-01<br>15:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>14:46-:59 UTC<br><br>Heard<br>KC7MG-DM42<br>2014-01-01<br>15:00-:15 UTC');
+tips.a238819 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-01<br>13:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>13:00-:15 UTC');
+tips.a238801 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>11:16-:30 UTC');
+tips.a238851 = new Array( 5, 5, 120, 'Heard<br>F5HO<br>2014-01-01<br>9:31-:45 UTC<br><br>Heard<br>EA8HB<br>2014-01-01<br>9:46-:59 UTC<br><br>Heard<br>EI5KJ<br>2014-01-01<br>9:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>9:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>8:00-:15 UTC');
+tips.a238770 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>6:16-:30 UTC');
+tips.a238766 = new Array( 5, 5, 120, 'Heard<br>UA9CS<br>2014-01-01<br>4:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-01<br>4:00-:15 UTC');
+tips.a238763 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-01<br>2:00-:15 UTC');
+tips.a238765 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-01<br>0:16-:30 UTC');
+tips.a239485 = new Array( 5, 5, 120, 'Telemetry Only<br>CE2WGD<br>2014-01-05<br>20:00-:15 UTC');
+tips.a239139 = new Array( 5, 5, 120, 'Telemetry Only<br>DL7FB<br>2014-01-03<br>14:16-:30 UTC');
+tips.a239513 = new Array( 5, 5, 120, 'Telemetry Only<br>SM0IFP<br>2014-01-06<br>4:16-:30 UTC');
+tips.a239352 = new Array( 5, 5, 120, 'Not Heard<br>DL7FB<br>2014-01-05<br>9:16-:30 UTC');
+tips.a239514 = new Array( 5, 5, 120, 'Not Heard<br>SM0IFP<br>2014-01-05<br>7:16-:30 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>6:00-:15 UTC');
+tips.a239249 = new Array( 5, 5, 120, 'Heard<br>DG4YDF<br>2014-01-04<br>11:31-:45 UTC');
+tips.a239100 = new Array( 5, 5, 120, 'Heard<br>DG4YDF<br>2014-01-03<br>10:31-:45 UTC');
+tips.a239069 = new Array( 5, 5, 120, 'Heard<br>UR3QLZ<br>2014-01-03<br>7:00-:15 UTC');
+tips.a239060 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-03<br>2:00-:15 UTC');
+tips.a238908 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-02<br>2:31-:45 UTC');
+tips.a238906 = new Array( 5, 5, 120, 'Heard<br>JR8LWY-QN12<br>2014-01-02<br>0:46-:59 UTC');
+tips.a238782 = new Array( 5, 5, 120, 'Heard<br>DG4YDF<br>2014-01-01<br>9:46-:59 UTC');
+tips.a238760 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-01<br>3:00-:15 UTC');
+tips.a239498 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-06<br>2:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-06<br>2:00-:15 UTC');
+tips.a239494 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-06<br>0:31-:45 UTC');
+tips.a239467 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>18:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>18:00-:15 UTC');
+tips.a239451 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-05<br>16:31-:45 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>16:31-:45 UTC');
+tips.a239370 = new Array( 5, 5, 120, 'Heard<br>JG1KGS<br>2014-01-05<br>9:16-:30 UTC');
+tips.a239323 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-05<br>1:31-:45 UTC');
+tips.a239297 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>17:46-:59 UTC<br><br>Heard<br>YO9CMC<br>2014-01-04<br>17:46-:59 UTC<br><br>Heard<br>UA4CRI<br>2014-01-04<br>16:00-:15 UTC');
+tips.a239200 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-04<br>2:46-:59 UTC');
+tips.a239198 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-04<br>1:16-:30 UTC');
+tips.a239183 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>19:00-:15 UTC');
+tips.a239182 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>17:16-:30 UTC<br><br>Heard<br>LZ1MDK<br>2014-01-03<br>17:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>17:16-:30 UTC');
+tips.a239063 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-03<br>4:16-:30 UTC');
+tips.a239057 = new Array( 5, 5, 120, 'Heard<br>KS9F<br>2014-01-03<br>0:46-:59 UTC');
+tips.a239054 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-02<br>23:31-:45 UTC');
+tips.a239049 = new Array( 5, 5, 120, 'Heard<br>OH3FLZ<br>2014-01-02<br>21:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>21:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>20:00-:15 UTC<br><br>Heard<br>DG1EA<br>2014-01-02<br>20:00-:15 UTC');
+tips.a239033 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>18:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>18:16-:30 UTC');
+tips.a238970 = new Array( 5, 5, 120, 'Heard<br>7K4GUR<br>2014-01-02<br>12:00-:15 UTC');
+tips.a238917 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-02<br>3:46-:59 UTC<br><br>Heard<br>K6UN<br>2014-01-02<br>3:46-:59 UTC<br><br>Heard<br>KF5MPS<br>2014-01-02<br>3:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-02<br>2:00-:15 UTC');
+tips.a238896 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>23:00-:15 UTC');
+tips.a238891 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>21:16-:30 UTC');
+tips.a238861 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>18:00-:15 UTC');
+tips.a238803 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-01<br>11:16-:30 UTC');
+tips.a238764 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-01<br>1:31-:45 UTC');
+tips.a239017 = new Array( 5, 5, 120, 'Crew Active<br><br>2014-01-02<br>18:31-:45 UTC');
+tips.a239507 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-06<br>4:46-:59 UTC<br><br>Heard<br>UA9CS<br>2014-01-06<br>4:46-:59 UTC');
+tips.a239500 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-06<br>3:00-:15 UTC');
+tips.a239487 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-05<br>22:00-:15 UTC');
+tips.a239472 = new Array( 5, 5, 120, 'Heard<br>DL7FB<br>2014-01-05<br>18:31-:45 UTC<br><br>Heard<br>EI5KJ<br>2014-01-05<br>18:31-:45 UTC');
+tips.a239457 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-05<br>17:00-:15 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>17:00-:15 UTC');
+tips.a239434 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>PE1BVQ<br>2014-01-05<br>15:16-:30 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>14:00-:15 UTC');
+tips.a239419 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>13:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>13:46-:59 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-05<br>12:31-:45 UTC');
+tips.a239424 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>9:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-05<br>9:16-:30 UTC');
+tips.a239346 = new Array( 5, 5, 120, 'Heard<br>EI3GYB<br>2014-01-05<br>7:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>6:00-:15 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>6:00-:15 UTC<br><br>Heard<br>UA9CS<br>2014-01-05<br>6:00-:15 UTC');
+tips.a239322 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-05<br>0:31-:45 UTC');
+tips.a239308 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>18:46-:59 UTC<br><br>Heard<br>EI5KJ<br>2014-01-04<br>18:16-:30 UTC');
+tips.a239300 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>16:46-:59 UTC<br><br>Heard<br>LA5PBA<br>2014-01-04<br>16:46-:59 UTC<br><br>Heard<br>DL7FB<br>2014-01-04<br>16:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-04<br>16:46-:59 UTC');
+tips.a239299 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>15:00-:15 UTC<br><br>Heard<br>SQ9MES<br>2014-01-04<br>15:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-04<br>15:00-:15 UTC');
+tips.a239298 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>12:00-:15 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-04<br>13:46-:59 UTC<br><br>Heard<br>UA9CS<br>2014-01-04<br>12:00-:15 UTC');
+tips.a239223 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-04<br>8:46-:59 UTC');
+tips.a239210 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>5:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-04<br>4:00-:15 UTC');
+tips.a239206 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>2:31-:45 UTC');
+tips.a239174 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>18:00-:15 UTC<br><br>Heard<br>DL7FB<br>2014-01-03<br>18:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>18:00-:15 UTC');
+tips.a239175 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>16:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>16:31-:45 UTC<br><br>Heard<br>YO9CMC<br>2014-01-03<br>16:31-:45 UTC');
+tips.a239176 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>14:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>14:46-:59 UTC');
+tips.a239119 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-03<br>12:00-:15 UTC');
+tips.a239101 = new Array( 5, 5, 120, 'Heard<br>N8IGJ<br>2014-01-03<br>10:31-:45 UTC');
+tips.a239081 = new Array( 5, 5, 120, 'Heard<br>EI5KJ<br>2014-01-03<br>8:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>8:46-:59 UTC<br><br>Heard<br>R1NW<br>2014-01-03<br>8:00-:15 UTC');
+tips.a239068 = new Array( 5, 5, 120, 'Heard<br>HA1SE<br>2014-01-03<br>7:00-:15 UTC');
+tips.a239067 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>5:31-:45 UTC');
+tips.a239055 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-03<br>0:00-:15 UTC');
+tips.a239006 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-02<br>18:00-:15 UTC');
+tips.a239010 = new Array( 5, 5, 120, 'Heard<br>HA1SE<br>2014-01-02<br>16:16-:30 UTC<br><br>Heard<br>HA1SE<br>2014-01-02<br>17:46-:59 UTC<br><br>Heard<br>M0ITF<br>2014-01-02<br>17:46-:59 UTC<br><br>Telemetry Only<br>IK2PTR<br>2014-01-02<br>16:46-:59 UTC<br><br>Heard<br>DL7FB<br>2014-01-02<br>17:46-:59 UTC<br><br>Heard<br>DG4YDF<br>2014-01-02<br>17:46-:59 UTC<br><br>Heard<br>YO9CMC<br>2014-01-02<br>17:46-:59 UTC<br><br>Heard<br>DF7SC<br>2014-01-02<br>16:16-:30 UTC');
+tips.a239012 = new Array( 5, 5, 120, 'Heard<br>HA1SE<br>2014-01-02<br>14:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>14:31-:45 UTC');
+tips.a238936 = new Array( 5, 5, 120, 'Heard<br>OH8MBN<br>2014-01-02<br>10:00-:15 UTC');
+tips.a238922 = new Array( 5, 5, 120, 'Heard<br>EI5KJ<br>2014-01-02<br>8:31-:45 UTC');
+tips.a238912 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>3:31-:45 UTC');
+tips.a238905 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-02<br>1:31-:45 UTC<br><br>Heard<br>AA5PK-DM91<br>2014-01-02<br>0:00-:15 UTC');
+tips.a238893 = new Array( 5, 5, 120, 'Heard<br>JO1LDY/1<br>2014-01-01<br>21:16-:30 UTC');
+tips.a238864 = new Array( 5, 5, 120, 'Heard<br>EI5KJ<br>2014-01-01<br>19:00-:15 UTC');
+tips.a238859 = new Array( 5, 5, 120, 'Heard<br>DL7FB<br>2014-01-01<br>17:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>17:31-:45 UTC<br><br>Heard<br>OH8MBN<br>2014-01-01<br>17:31-:45 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>16:00-:15 UTC');
+tips.a238831 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-01<br>14:46-:59 UTC<br><br>Heard<br>KC7MG-DM42<br>2014-01-01<br>15:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>14:16-:30 UTC');
+tips.a238832 = new Array( 5, 5, 120, 'Heard<br>HA1SE<br>2014-01-01<br>13:46-:59 UTC');
+tips.a238774 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-01<br>8:00-:15 UTC<br><br>Heard<br>EI5KJ<br>2014-01-01<br>8:16-:30 UTC');
+tips.a238769 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>6:16-:30 UTC');
+tips.a238768 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>3:16-:30 UTC<br><br>Heard<br>UA9CS<br>2014-01-01<br>3:16-:30 UTC');
+tips.a239505 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-06<br>4:00-:15 UTC');
+tips.a239504 = new Array( 5, 5, 120, 'Telemetry Only<br>K5HJ<br>2014-01-06<br>3:16-:30 UTC<br><br>Telemetry Only<br>K5HJ<br>2014-01-06<br>2:16-:30 UTC');
+tips.a239489 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>22:00-:15 UTC');
+tips.a239469 = new Array( 5, 5, 120, 'Telemetry Only<br>DL7FB<br>2014-01-05<br>18:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>18:16-:30 UTC<br><br>Telemetry Only<br>UR5MQD<br>2014-01-05<br>18:16-:30 UTC');
+tips.a239452 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>16:31-:45 UTC<br><br>Telemetry Only<br>UR5MQD<br>2014-01-05<br>16:31-:45 UTC');
+tips.a239439 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-05<br>14:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>14:46-:59 UTC');
+tips.a239438 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-05<br>13:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>13:00-:15 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-05<br>13:00-:15 UTC');
+tips.a239436 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-05<br>11:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>11:16-:30 UTC');
+tips.a239435 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-05<br>9:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>9:31-:45 UTC<br><br>Telemetry Only<br>DL7FB<br>2014-01-05<br>9:46-:59 UTC');
+tips.a239317 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-04<br>20:31-:45 UTC');
+tips.a239303 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-04<br>18:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>18:31-:45 UTC');
+tips.a239302 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-04<br>16:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>16:46-:59 UTC');
+tips.a239301 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-04<br>15:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>15:00-:15 UTC');
+tips.a239250 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>11:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>10:00-:15 UTC');
+tips.a239233 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>8:00-:15 UTC');
+tips.a239211 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-04<br>6:16-:30 UTC');
+tips.a239184 = new Array( 5, 5, 120, 'Telemetry Only<br>DG1EA<br>2014-01-03<br>19:00-:15 UTC<br><br>Telemetry Only<br>UR5MQD<br>2014-01-03<br>19:00-:15 UTC');
+tips.a239179 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-03<br>17:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>17:00-:15 UTC');
+tips.a239178 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-03<br>15:16-:30 UTC');
+tips.a239177 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-03<br>12:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>12:00-:15 UTC');
+tips.a239099 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>10:00-:15 UTC');
+tips.a239077 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>8:16-:30 UTC');
+tips.a239053 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>23:00-:15 UTC');
+tips.a239041 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>21:00-:15 UTC');
+tips.a239022 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-02<br>19:16-:30 UTC<br><br>Telemetry Only<br>EW6FX<br>2014-01-02<br>19:16-:30 UTC');
+tips.a239034 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-02<br>15:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>15:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>14:00-:15 UTC');
+tips.a238975 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>12:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>12:00-:15 UTC<br><br>Telemetry Only<br>7K4GUR<br>2014-01-02<br>12:00-:15 UTC');
+tips.a238942 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>10:16-:30 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-02<br>10:16-:30 UTC');
+tips.a238926 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>8:46-:59 UTC');
+tips.a238892 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>21:16-:30 UTC');
+tips.a238881 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-01<br>19:31-:45 UTC<br><br>Telemetry Only<br>DG1EA<br>2014-01-01<br>19:31-:45 UTC');
+tips.a238880 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-01<br>17:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>17:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>16:00-:15 UTC');
+tips.a238827 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>14:16-:30 UTC');
+tips.a238797 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-01<br>10:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>10:31-:45 UTC');
+tips.a238778 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>8:46-:59 UTC');
+tips.a239499 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-06<br>3:31-:45 UTC');
+tips.a239492 = new Array( 5, 5, 120, 'Heard<br>HA1SE<br>2014-01-05<br>22:31-:45 UTC');
+tips.a239491 = new Array( 5, 5, 120, 'Heard<br>IK8XLD<br>2014-01-05<br>20:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>20:46-:59 UTC');
+tips.a239476 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>19:00-:15 UTC<br><br>Heard<br>UA9CS<br>2014-01-05<br>19:16-:30 UTC');
+tips.a239459 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>17:31-:45 UTC<br><br>Telemetry Only<br>KA9ERV<br>2014-01-05<br>16:31-:45 UTC');
+tips.a239442 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-05<br>13:00-:15 UTC<br><br>Telemetry Only<br>PY4ZBZ<br>2014-01-05<br>13:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>13:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-05<br>13:00-:15 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-05<br>13:00-:15 UTC');
+tips.a239443 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-05<br>11:16-:30 UTC<br><br>Telemetry Only<br>PY4ZBZ<br>2014-01-05<br>11:46-:59 UTC<br><br>Telemetry Only<br>LA5PBA<br>2014-01-05<br>11:16-:30 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-05<br>11:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>11:16-:30 UTC');
+tips.a239375 = new Array( 5, 5, 120, 'Telemetry Only<br>PB0AHX.NL<br>2014-01-05<br>9:46-:59 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-05<br>9:46-:59 UTC<br><br>Telemetry Only<br>HA1SE<br>2014-01-05<br>9:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-05<br>9:46-:59 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-05<br>8:00-:15 UTC');
+tips.a239327 = new Array( 5, 5, 120, 'Heard<br>AA5PK-DM91<br>2014-01-05<br>4:31-:45 UTC');
+tips.a239325 = new Array( 5, 5, 120, 'Telemetry Only<br>9V1SV<br>2014-01-05<br>3:31-:45 UTC');
+tips.a239318 = new Array( 5, 5, 120, 'Heard<br>OM3WAK<br>2014-01-04<br>20:16-:30 UTC<br><br>Heard<br>UR5MQD<br>2014-01-04<br>20:16-:30 UTC');
+tips.a239310 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>18:46-:59 UTC');
+tips.a239304 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>17:16-:30 UTC<br><br>Heard<br>UA4CRI<br>2014-01-04<br>17:16-:30 UTC<br><br>Telemetry Only<br>VU3SOH<br>2014-01-04<br>17:00-:15 UTC');
+tips.a239313 = new Array( 5, 5, 120, 'Telemetry Only<br>UR5MQD<br>2014-01-04<br>12:31-:45 UTC<br><br>Telemetry Only<br>PY4ZBZ<br>2014-01-04<br>13:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>12:31-:45 UTC');
+tips.a239257 = new Array( 5, 5, 120, 'Telemetry Only<br>LA5PBA<br>2014-01-04<br>11:00-:15 UTC<br><br>Telemetry Only<br>LA9RAA<br>2014-01-04<br>11:16-:30 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-04<br>11:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>11:00-:15 UTC');
+tips.a239231 = new Array( 5, 5, 120, 'Telemetry Only<br>OM3WAK<br>2014-01-04<br>9:31-:45 UTC<br><br>Telemetry Only<br>IZ4FXC<br>2014-01-04<br>9:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:16-:30 UTC');
+tips.a239215 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>7:46-:59 UTC');
+tips.a239201 = new Array( 5, 5, 120, 'Heard<br>KC9ELU<br>2014-01-04<br>2:31-:45 UTC');
+tips.a239195 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-03<br>23:16-:30 UTC');
+tips.a239190 = new Array( 5, 5, 120, 'Heard<br>IZ4FXC<br>2014-01-03<br>20:00-:15 UTC<br><br>Heard<br>OM3WAK<br>2014-01-03<br>20:00-:15 UTC<br><br>Heard<br>YO9CMC<br>2014-01-03<br>20:00-:15 UTC<br><br>Heard<br>DF7SC<br>2014-01-03<br>20:00-:15 UTC<br><br>Heard<br>UR5MQD<br>2014-01-03<br>20:00-:15 UTC');
+tips.a239170 = new Array( 5, 5, 120, 'Heard<br>DG1EA<br>2014-01-03<br>18:31-:45 UTC<br><br>Heard<br>UA9CS<br>2014-01-03<br>18:31-:45 UTC<br><br>Heard<br>UR5MQD<br>2014-01-03<br>18:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-03<br>18:31-:45 UTC');
+tips.a239180 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-03<br>17:00-:15 UTC<br><br>Telemetry Only<br>VU3SOH<br>2014-01-03<br>16:31-:45 UTC<br><br>Heard<br>UA9CS<br>2014-01-03<br>17:00-:15 UTC');
+tips.a239185 = new Array( 5, 5, 120, 'Telemetry Only<br>PY4ZBZ<br>2014-01-03<br>12:31-:45 UTC<br><br>Telemetry Only<br>LA5PBA<br>2014-01-03<br>12:16-:30 UTC<br><br>Telemetry Only<br>DF7SC<br>2014-01-03<br>12:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>12:16-:30 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-03<br>12:16-:30 UTC');
+tips.a239109 = new Array( 5, 5, 120, 'Telemetry Only<br>OM3WAK<br>2014-01-03<br>10:31-:45 UTC<br><br>Telemetry Only<br>DF7SC<br>2014-01-03<br>10:46-:59 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-03<br>10:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>10:31-:45 UTC');
+tips.a239088 = new Array( 5, 5, 120, 'Telemetry Only<br>OM3WAK<br>2014-01-03<br>9:00-:15 UTC<br><br>Telemetry Only<br>DF7SC<br>2014-01-03<br>9:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-03<br>9:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-03<br>9:00-:15 UTC');
+tips.a239064 = new Array( 5, 5, 120, 'Heard<br>VE5SWL<br>2014-01-03<br>3:46-:59 UTC');
+tips.a239052 = new Array( 5, 5, 120, 'Heard<br>OZ1MY<br>2014-01-02<br>23:00-:15 UTC');
+tips.a239048 = new Array( 5, 5, 120, 'Heard<br>DF7SC<br>2014-01-02<br>21:16-:30 UTC<br><br>Heard<br>OM3WAK<br>2014-01-02<br>21:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>21:16-:30 UTC');
+tips.a239047 = new Array( 5, 5, 120, 'Heard<br>DF7SC<br>2014-01-02<br>19:46-:59 UTC<br><br>Heard<br>SQ9MES<br>2014-01-02<br>19:46-:59 UTC<br><br>Heard<br>DG1EA<br>2014-01-02<br>19:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>19:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-02<br>18:00-:15 UTC<br><br>Heard<br>UR5MQD<br>2014-01-02<br>19:46-:59 UTC<br><br>Heard<br>UA9CS<br>2014-01-02<br>18:00-:15 UTC<br><br>Heard<br>HA1SE<br>2014-01-02<br>18:00-:15 UTC<br><br>Heard<br>OZ1MY<br>2014-01-02<br>18:00-:15 UTC');
+tips.a239007 = new Array( 5, 5, 120, 'Telemetry Only<br>VU3SOH<br>2014-01-02<br>17:46-:59 UTC<br><br>Telemetry Only<br>VU3SOH<br>2014-01-02<br>16:16-:30 UTC');
+tips.a238978 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>13:31-:45 UTC');
+tips.a238993 = new Array( 5, 5, 120, 'Telemetry Only<br>DF7SC<br>2014-01-02<br>11:46-:59 UTC<br><br>Telemetry Only<br>DF7SC<br>2014-01-02<br>10:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>11:46-:59 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-02<br>11:46-:59 UTC<br><br>Telemetry Only<br>DF2LV<br>2014-01-02<br>11:46-:59 UTC<br><br>Telemetry Only<br>OM3WAK<br>2014-01-02<br>10:16-:30 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-02<br>10:16-:30 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-02<br>10:16-:30 UTC<br><br>Telemetry Only<br>DF2LV<br>2014-01-02<br>10:16-:30 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-02<br>10:00-:15 UTC');
+tips.a238990 = new Array( 5, 5, 120, 'Telemetry Only<br>DF7SC<br>2014-01-02<br>8:31-:45 UTC');
+tips.a238897 = new Array( 5, 5, 120, 'Heard<br>DG4YDF<br>2014-01-01<br>22:31-:45 UTC');
+tips.a238888 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1LMC<br>2014-01-01<br>20:31-:45 UTC<br><br>Telemetry Only<br>EI3GGB<br>2014-01-01<br>21:00-:15 UTC<br><br>Heard<br>GW1FKY<br>2014-01-01<br>21:00-:15 UTC<br><br>Heard<br>UR5MQD<br>2014-01-01<br>20:46-:59 UTC<br><br>Heard<br>SQ9MES<br>2014-01-01<br>20:46-:59 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>20:46-:59 UTC<br><br>Heard<br>DG4YDF<br>2014-01-01<br>21:00-:15 UTC');
+tips.a238877 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>19:16-:30 UTC<br><br>Heard<br>HA1SE<br>2014-01-01<br>19:16-:30 UTC');
+tips.a238876 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-01<br>16:16-:30 UTC<br><br>Heard<br>OZ1MY<br>2014-01-01<br>17:46-:59 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-01<br>16:16-:30 UTC<br><br>Heard<br>OH8MBN<br>2014-01-01<br>16:00-:15 UTC');
+tips.a238834 = new Array( 5, 5, 120, 'Heard<br>OZ1LMC<br>2014-01-01<br>14:16-:30 UTC');
+tips.a238818 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>13:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-01<br>13:00-:15 UTC');
+tips.a238804 = new Array( 5, 5, 120, 'Telemetry Only<br>DL8DR<br>2014-01-01<br>11:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>11:16-:30 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-01<br>11:31-:45 UTC<br><br>Telemetry Only<br>OM3WAK<br>2014-01-01<br>10:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-01<br>10:00-:15 UTC<br><br>Telemetry Only<br>DL8DR<br>2014-01-01<br>10:00-:15 UTC');
+tips.a238784 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>9:46-:59 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-01<br>8:16-:30 UTC');
+tips.a239397 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-05<br>12:46-:59 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-05<br>12:31-:45 UTC');
+tips.a239384 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-05<br>11:16-:30 UTC');
+tips.a239374 = new Array( 5, 5, 120, 'Telemetry Only<br>PB0AHX.NL<br>2014-01-05<br>9:31-:45 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-05<br>9:31-:45 UTC');
+tips.a239254 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>12:31-:45 UTC');
+tips.a239247 = new Array( 5, 5, 120, 'Telemetry Only<br>PE1DRN<br>2014-01-04<br>11:00-:15 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-04<br>11:00-:15 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>11:00-:15 UTC');
+tips.a239230 = new Array( 5, 5, 120, 'Telemetry Only<br>PE1DRN<br>2014-01-04<br>9:31-:45 UTC<br><br>Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:16-:30 UTC');
+tips.a239128 = new Array( 5, 5, 120, 'Telemetry Only<br>F4FAP<br>2014-01-03<br>12:31-:45 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-03<br>12:31-:45 UTC');
+tips.a239110 = new Array( 5, 5, 120, 'Telemetry Only<br>PE1DRN<br>2014-01-03<br>10:46-:59 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-03<br>10:46-:59 UTC');
+tips.a239091 = new Array( 5, 5, 120, 'Telemetry Only<br>F4FAP<br>2014-01-03<br>9:16-:30 UTC<br><br>Telemetry Only<br>PE1DRN<br>2014-01-03<br>9:16-:30 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-03<br>9:16-:30 UTC');
+tips.a238974 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>12:16-:30 UTC');
+tips.a238960 = new Array( 5, 5, 120, 'Telemetry Only<br>F4FAP<br>2014-01-02<br>10:46-:59 UTC<br><br>Telemetry Only<br>DG4YDF<br>2014-01-02<br>10:31-:45 UTC<br><br>Telemetry Only<br>OH8MBN<br>2014-01-02<br>10:31-:45 UTC');
+tips.a238933 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-02<br>9:16-:30 UTC<br><br>Telemetry Only<br>PE1DRN<br>2014-01-02<br>9:00-:15 UTC');
+tips.a238850 = new Array( 5, 5, 120, 'Telemetry Only<br>OH8MBN<br>2014-01-01<br>16:46-:59 UTC');
+tips.a238825 = new Array( 5, 5, 120, 'Telemetry Only<br>LU4EOU<br>2014-01-01<br>14:00-:15 UTC');
+tips.a238808 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-01<br>12:00-:15 UTC');
+tips.a238794 = new Array( 5, 5, 120, 'Telemetry Only<br>DG4YDF<br>2014-01-01<br>10:31-:45 UTC');
+tips.a238781 = new Array( 5, 5, 120, 'Telemetry Only<br>PE1DRN<br>2014-01-01<br>9:00-:15 UTC');
+tips.a238983 = new Array( 5, 5, 120, 'Not Heard<br>KB4MBH<br>2014-01-02<br>12:16-:30 UTC');
+tips.a238957 = new Array( 5, 5, 120, 'Not Heard<br>DD1US<br>2014-01-02<br>10:16-:30 UTC');
+tips.a238929 = new Array( 5, 5, 120, 'Not Heard<br>DD1US<br>2014-01-02<br>8:31-:45 UTC');
+tips.a238865 = new Array( 5, 5, 120, 'Crew Active<br>PY2ALS<br>2014-01-01<br>18:46-:59 UTC');
+tips.a239474 = new Array( 5, 5, 120, 'Telemetry Only<br>DL7FB<br>2014-01-05<br>18:31-:45 UTC');
+tips.a239377 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>10:16-:30 UTC');
+tips.a239239 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>10:31-:45 UTC');
+tips.a239224 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>9:00-:15 UTC');
+tips.a239092 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>9:16-:30 UTC');
+tips.a239072 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>7:46-:59 UTC');
+tips.a238935 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>9:46-:59 UTC');
+tips.a238848 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>16:31-:45 UTC');
+tips.a238836 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>14:46-:59 UTC');
+tips.a238777 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>8:16-:30 UTC');
+tips.a239379 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-05<br>11:00-:15 UTC');
+tips.a239261 = new Array( 5, 5, 120, 'Telemetry Only<br>DL7FB<br>2014-01-04<br>13:31-:45 UTC');
+tips.a239235 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-04<br>10:16-:30 UTC');
+tips.a239137 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-03<br>14:16-:30 UTC');
+tips.a238947 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-02<br>10:16-:30 UTC');
+tips.a238799 = new Array( 5, 5, 120, 'Telemetry Only<br>OZ1MY<br>2014-01-01<br>11:00-:15 UTC');
+tips.a239480 = new Array( 5, 5, 120, 'Heard<br>KC1AWV<br>2014-01-05<br>17:16-:30 UTC');
+tips.a239454 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>14:46-:59 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>14:46-:59 UTC');
+tips.a239422 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>13:00-:15 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>13:00-:15 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>13:00-:15 UTC');
+tips.a239423 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-05<br>11:31-:45 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>11:31-:45 UTC');
+tips.a239367 = new Array( 5, 5, 120, 'Heard<br>DL7FB<br>2014-01-05<br>9:46-:59 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>9:46-:59 UTC<br><br>Heard<br>DG4YDF<br>2014-01-05<br>8:16-:30 UTC');
+tips.a239344 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-05<br>7:00-:15 UTC<br><br>Heard<br>HA8UJ<br>2014-01-05<br>6:46-:59 UTC<br><br>Heard<br>DL7FB<br>2014-01-05<br>6:46-:59 UTC<br><br>Heard<br>UR5MQD<br>2014-01-05<br>6:00-:15 UTC');
+tips.a239328 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-05<br>5:31-:45 UTC');
+tips.a239305 = new Array( 5, 5, 120, 'Heard<br>KC1AWV<br>2014-01-04<br>18:31-:45 UTC');
+tips.a239286 = new Array( 5, 5, 120, 'Heard<br>W7JPI<br>2014-01-04<br>16:46-:59 UTC');
+tips.a239311 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>15:31-:45 UTC<br><br>Heard<br>DL7FB<br>2014-01-04<br>15:31-:45 UTC<br><br>Heard<br>EA7AHA<br>2014-01-04<br>15:31-:45 UTC<br><br>Heard<br>DL7FB<br>2014-01-04<br>14:00-:15 UTC<br><br>Heard<br>EA7AHA<br>2014-01-04<br>14:00-:15 UTC');
+tips.a239312 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>13:46-:59 UTC<br><br>Heard<br>DL7FB<br>2014-01-04<br>13:46-:59 UTC<br><br>Heard<br>W7JPI<br>2014-01-04<br>13:31-:45 UTC<br><br>Heard<br>DG4YDF<br>2014-01-04<br>12:16-:30 UTC');
+tips.a239238 = new Array( 5, 5, 120, 'Heard<br>DG4YDF<br>2014-01-04<br>10:46-:59 UTC');
+tips.a239212 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-04<br>6:16-:30 UTC');
+tips.a239209 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-04<br>5:16-:30 UTC');
+tips.a239196 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-03<br>23:46-:59 UTC');
+tips.a239059 = new Array( 5, 5, 120, 'Heard<br>KC4ZVA<br>2014-01-03<br>20:46-:59 UTC');
+tips.a239149 = new Array( 5, 5, 120, 'Heard<br>EB8ARZ<br>2014-01-03<br>16:16-:30 UTC');
+tips.a239134 = new Array( 5, 5, 120, 'Telemetry Only<br>VU3SOH<br>2014-01-03<br>13:31-:45 UTC<br><br>Heard<br>F4FAP<br>2014-01-03<br>13:16-:30 UTC<br><br>Heard<br>DL7FB<br>2014-01-03<br>13:00-:15 UTC');
+tips.a239112 = new Array( 5, 5, 120, 'Heard<br>IW0FKO<br>2014-01-03<br>11:00-:15 UTC<br><br>Heard<br>DL8DR<br>2014-01-03<br>11:31-:45 UTC');
+tips.a239095 = new Array( 5, 5, 120, 'Not Heard<br>EB8ARZ<br>2014-01-03<br>9:46-:59 UTC');
+tips.a239028 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>15:31-:45 UTC<br><br>Heard<br>DL7FB<br>2014-01-02<br>15:31-:45 UTC');
+tips.a239026 = new Array( 5, 5, 120, 'Heard<br>UR5MQD<br>2014-01-02<br>12:16-:30 UTC<br><br>Heard<br>DF2LV<br>2014-01-02<br>12:16-:30 UTC');
+tips.a238959 = new Array( 5, 5, 120, 'Telemetry Only<br>DD1US<br>2014-01-02<br>10:46-:59 UTC<br><br>Telemetry Only<br>DD1US<br>2014-01-02<br>10:16-:30 UTC<br><br>Heard<br>DF2LV<br>2014-01-02<br>10:31-:45 UTC<br><br>Heard<br>EA7AHA<br>2014-01-02<br>10:46-:59 UTC');
+tips.a238931 = new Array( 5, 5, 120, 'Telemetry Only<br>DD1US<br>2014-01-02<br>8:31-:45 UTC');
+tips.a238921 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-02<br>7:46-:59 UTC<br><br>Heard<br>JA3FWT<br>2014-01-02<br>6:16-:30 UTC');
+tips.a238909 = new Array( 5, 5, 120, 'Telemetry Only<br>VU3SOH<br>2014-01-02<br>2:46-:59 UTC');
+tips.a238904 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-02<br>1:16-:30 UTC<br><br>Heard<br>KC7MIQ<br>2014-01-02<br>0:00-:15 UTC');
+tips.a238899 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-01<br>23:46-:59 UTC<br><br>Heard<br>AL0I<br>2014-01-01<br>22:31-:45 UTC<br><br>Heard<br>KC7MIQ<br>2014-01-01<br>22:31-:45 UTC');
+tips.a238874 = new Array( 5, 5, 120, 'Heard<br>KC1AWV<br>2014-01-01<br>21:00-:15 UTC');
+tips.a238846 = new Array( 5, 5, 120, 'Heard<br>DL7FB<br>2014-01-01<br>16:16-:30 UTC');
+tips.a238863 = new Array( 5, 5, 120, 'Heard<br>DO1TJ<br>2014-01-01<br>14:46-:59 UTC<br><br>Heard<br>DL7FB<br>2014-01-01<br>14:46-:59 UTC<br><br>Heard<br>AL0I<br>2014-01-01<br>14:31-:45 UTC');
+tips.a238820 = new Array( 5, 5, 120, 'Telemetry Only<br>VU3SOH<br>2014-01-01<br>13:31-:45 UTC<br><br>Heard<br>DF2LV<br>2014-01-01<br>13:00-:15 UTC');
+tips.a238805 = new Array( 5, 5, 120, 'Heard<br>DJ5LB<br>2014-01-01<br>11:31-:45 UTC');
+tips.a238790 = new Array( 5, 5, 120, 'Heard<br>HA8UJ<br>2014-01-01<br>9:46-:59 UTC<br><br>Heard<br>DG4YDF<br>2014-01-01<br>9:46-:59 UTC');
+tips.a238771 = new Array( 5, 5, 120, 'Heard<br>JA3FWT<br>2014-01-01<br>7:00-:15 UTC');
+template = '<table bgcolor="#003366" cellpadding="1" cellspacing="0" width="%2%" border="0">' +
+  '<tr><td><table bgcolor="#6699CC" cellpadding="3" cellspacing="0" width="100%" border="0">' +
+  '<tr><td class="tipClass">%3%</td></tr></table></td></tr></table>';
+
+}
+
+if (isNS4) document.captureEvents(Event.MOUSEMOVE);
+document.onmousemove = function(evt)
+{
+
+ // Add or remove all your tip objects from here!
+ docTips.track(evt);
+
+ if (isNS4) return document.routeEvent(evt);
+}
+
+
+// A small function that refreshes NS4 on horizontal resize.
+var nsWinW = window.innerWidth, nsWinH = window.innerHeight;
+function ns4BugCheck()
+{
+ if (isNS4 && (nsWinW!=innerWidth || nsWinH!=innerHeight)) location.reload()
+}
+
+window.onresize = function()
+{
+ ns4BugCheck();
+}
+
+
+//--></script>
+
+
+
+<div id="docTipsLayer" style="position: absolute; z-index: 1000; visibility: hidden;
+ left: 0px; top: 0px; width: 10px">&nbsp;</div>
+
+<center>
+<table border=0 cellspacing=1 cellpadding=0><tr>
+<td width=50 align="right"><b>Name</b></td>
+
+<td colspan=12 width=108 align="center" bgcolor="black"><font color="white">Jan 6</font></td>
+<td colspan=12 width=108 align="center" bgcolor="white"><font color="black">Jan 5</font></td>
+<td colspan=12 width=108 align="center" bgcolor="black"><font color="white">Jan 4</font></td>
+<td colspan=12 width=108 align="center" bgcolor="white"><font color="black">Jan 3</font></td>
+<td colspan=12 width=108 align="center" bgcolor="black"><font color="white">Jan 2</font></td>
+<td colspan=12 width=108 align="center" bgcolor="white"><font color="black">Jan 1</font></td>
+</tr><tr> <td align="right"><a target="_new" href="http://lss.mes.titech.ac.jp/ssp/cubesat/index_e.html">CUTE-1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239445') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239444') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239380') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239358') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239277') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239268') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239259') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239232') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239163') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239152') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239142') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239133') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239114') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239078') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239058') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238985') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238968') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238943') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238930') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238840') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238798') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238780') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/ao7.html">[A]_AO-7</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239511') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239502') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239319') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239372') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239292') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239258') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239213') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239050') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239051') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239032') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239029') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238977') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238961') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238919') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238758') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/ao7.html">[B]_AO-7</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a239510') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239488') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239477') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239468') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239446') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239421') onMouseOut=docTips.hide()>9</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239393') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239365') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239341') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239334') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a239208') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239194') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239192') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239169') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239171') onMouseOut=docTips.hide()>6</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239117') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239076') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239065') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a238914') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238898') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238882') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238839') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238822') onMouseOut=docTips.hide()>7</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238807') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238792') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238767') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a238759') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">XI-V</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239490') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239473') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239458') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239280') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239219') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239046') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238813') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/uo11.html">[B]_UO-11</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239387') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239360') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239289') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239255') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239246') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239227') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239216') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239165') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239124') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239106') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239085') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239043') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239030') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238967') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238948') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238927') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238902') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238890') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a238868') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/rs15.html">RS-15</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239366') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239237') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238962') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238934') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238811') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/lo19.html">LO-19</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239478') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/io26.html">IO-26</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239376') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239320') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239240') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239225') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239214') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239073') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238944') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238823') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238795') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238779') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/fo29.html">FO-29</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239509') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239501') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239479') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239450') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239455') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239420') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239381') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239357') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239351') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239324') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239315') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239295') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239293') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239296') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239236') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239222') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239204') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239207') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239197') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239172') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239173') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239143') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239132') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239094') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239071') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239061') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239056') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239040') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239025') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239023') onMouseOut=docTips.hide()>6</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238999') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238979') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238969') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238956') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238910') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238918') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238875') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238889') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238838') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238819') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238801') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238851') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238770') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238766') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238763') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238765') onMouseOut=docTips.hide()>1</a></td>
+</tr>
+<tr> <td align="right"><a target="_new" href="http://www.aprs.org/GO32-ops.html">GO-32</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239485') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239139') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.aprs.org/pcsat.html">NO-44</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239513') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a239352') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="orange"><a href=javascript:void(0) onMouseOver=docTips.show('a239514') onMouseOut=docTips.hide()>_</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239249') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239100') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239069') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239060') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238908') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238906') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238782') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238760') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat/sats/n7hpr/so50.html">SO-50</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239498') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239494') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239467') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239451') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239370') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239323') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239297') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239200') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239198') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239183') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239182') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239063') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239057') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239054') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239049') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239033') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238970') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238917') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238896') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238891') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238861') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238803') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238764') onMouseOut=docTips.hide()>1</a></td>
+</tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsat.org/amsat-new/echo/">AO-51</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#9900FF"><a href=javascript:void(0) onMouseOver=docTips.show('a239017') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.amsatindia.org/">VO-52</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239507') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239500') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239487') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239472') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239457') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239434') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239419') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239424') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239346') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239322') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239308') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239300') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239299') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239298') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239223') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239210') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239206') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239174') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239175') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239176') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239119') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239101') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239081') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239068') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239067') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239055') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239006') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239010') onMouseOut=docTips.hide()>7</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239012') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238936') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238922') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238912') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238905') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238893') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238864') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238859') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238831') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238832') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238774') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238769') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238768') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right"><a target="_new" href="http://www.camsat.cn/index.php?lang=en">HO-68</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239505') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239504') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239489') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239469') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239452') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239439') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239438') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239436') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239435') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239317') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239303') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239302') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239301') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239250') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239233') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239211') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239184') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239179') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239178') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239177') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239099') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239077') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239053') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239041') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239022') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239034') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238975') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238942') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238926') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238892') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238881') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238880') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238827') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238797') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238778') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">AO-73</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239499') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239492') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239491') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239476') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="orange"><a href=javascript:void(0) onMouseOver=docTips.show('a239459') onMouseOut=docTips.hide()>_</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239442') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239443') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239375') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239327') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239325') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239318') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239310') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239304') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239313') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239257') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239231') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239215') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239201') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239195') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239190') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239170') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239180') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239185') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239109') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239088') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239064') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239052') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239048') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239047') onMouseOut=docTips.hide()>9</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239007') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238978') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238993') onMouseOut=docTips.hide()>10</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238990') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238897') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238888') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238877') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238876') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238834') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238818') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238804') onMouseOut=docTips.hide()>6</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238784') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">Delfi-C3</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239397') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239384') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239374') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239254') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239247') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239230') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239128') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239110') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239091') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238974') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238960') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238933') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238850') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238825') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238808') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238794') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238781') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">ISS-FM</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a238983') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a238957') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a238929') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#9900FF"><a href=javascript:void(0) onMouseOver=docTips.show('a238865') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">XI-IV</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239474') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239377') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239239') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239224') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239092') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239072') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238935') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238848') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238836') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238777') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">ITUpSAT1</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239379') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239261') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239235') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a239137') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238947') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238799') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+<tr> <td align="right">ISS-DATA</td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239480') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239454') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239422') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239423') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239367') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239344') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239328') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239305') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239286') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239311') onMouseOut=docTips.hide()>5</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239312') onMouseOut=docTips.hide()>4</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239238') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239212') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239209') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239196') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239059') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239149') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239134') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239112') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="red"><a href=javascript:void(0) onMouseOver=docTips.show('a239095') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239028') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a239026') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="orange"><a href=javascript:void(0) onMouseOver=docTips.show('a238959') onMouseOut=docTips.hide()>_</a></td>
+<td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238931') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238921') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="yellow"><a href=javascript:void(0) onMouseOver=docTips.show('a238909') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238904') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238899') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238874') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238846') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238863') onMouseOut=docTips.hide()>3</a></td>
+<td width=9 bgcolor="orange"><a href=javascript:void(0) onMouseOver=docTips.show('a238820') onMouseOut=docTips.hide()>_</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238805') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238790') onMouseOut=docTips.hide()>2</a></td>
+<td width=9 bgcolor="#4169E1"><a href=javascript:void(0) onMouseOver=docTips.show('a238771') onMouseOut=docTips.hide()>1</a></td>
+<td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td><td width=9 bgcolor="C0C0C0"> </td></tr>
+</table></center>
+
+<!--- END MAIN SAT CHART -->
+
+<center><a href="satdb-6-6-11.sql.gz">Download a 6/06/11 snapshot of the report database (more than 150,000 reports)</a></center>
+
+<br>
+<center><b>Hover mouse over number for more data. Satellites do not appear if they have no data available.</b>
+</center>
+
+<br>
+<table width="100%" border=0>
+<tr>
+<td width="20%" align="center" cellpadding=20><font color="4169E1" size=4><b>Special thanks for the above reports:</b></font>
+<br>
+<br><b>7K4GUR</b><br><b>9V1SV</b><br><b>AA5PK-DM91</b><br><b>AL0I</b><br><b>CE2WGD</b><br><b>DC3RJ</b><br><b>DD1US</b><br><b>DF2LV</b><br><b>DF7SC</b><br><b>DG1EA</b><br><b>DG4YDF</b><br><b>DJ5LB</b><br><b>DL7FB</b><br><b>DL8DR</b><br><b>DO1TJ</b><br><b>DV4RER</b><br><b>EA7AHA</b><br><b>EA8HB</b><br><b>EB8ARZ</b><br><b>EI3GGB</b><br><b>EI3GYB</b><br><b>EI5KJ</b><br><b>EW6FX</b><br><b>F0FIG</b><br><b>F4FAP</b><br><b>F5HO</b><br><b>F6ADB</b><br><b>G3CWV</b><br><b>G8KEK</b><br><b>GW1FKY</b><br><b>HA1SE</b><br><b>HA5AJZ</b><br><b>HA8UJ</b><br><b>HK3Z</b><br><b>IK2PTR</b><br><b>IK8XLD</b><br><b>IW0FKO</b><br><b>IZ4FXC</b><br><b>JA0CAW</b><br><b>JA3FWT</b><br><b>JG1KGS</b><br><b>JO1LDY/1</b><br><b>JR8LWY-QN12</b><br><b>K5HJ</b><br><b>K6UN</b><br><b>K7IP</b><br><b>K9CIS</b><br><b>KA9ERV</b><br><b>KB4MBH</b><br><b>KC1AWV</b><br><b>KC4LE</b><br><b>KC4ZVA</b><br><b>KC7MG-DM42</b><br><b>KC7MIQ</b><br><b>KC9ELU</b><br><b>KD8BIN</b><br><b>KF5MPS</b><br><b>KS9F</b><br><b>LA5PBA</b><br><b>LA9RAA</b><br><b>LU4EOU</b><br><b>LZ1KG</b><br><b>LZ1MDK</b><br><b>M0ITF</b><br><b>MI0VAX</b><br><b>N6EMP</b><br><b>N8IGJ</b><br><b>NJ1H</b><br><b>NX9G</b><br><b>OH2FQV</b><br><b>OH3FLZ</b><br><b>OH8MBN</b><br><b>OM0AAO</b><br><b>OM3CLS</b><br><b>OM3WAK</b><br><b>ON4HF</b><br><b>OZ1LMC</b><br><b>OZ1MY</b><br><b>PB0AHX.NL</b><br><b>PE1BVQ</b><br><b>PE1DRN</b><br><b>PE1NIL</b><br><b>PU2RAS</b><br><b>PY2ALS</b><br><b>PY2SAD</b><br><b>PY4ZBZ</b><br><b>R1NW</b><br><b>SM0IFP</b><br><b>SP9TTX</b><br><b>SQ9MES</b><br><b>TR8CA</b><br><b>UA4CRI</b><br><b>UA9CS</b><br><b>UR3QLZ</b><br><b>UR5MQD</b><br><b>VE5SWL</b><br><b>VU3SOH</b><br><b>W5SXD</b><br><b>W7BDB</b><br><b>W7JPI</b><br><b>YO9CMC</b></td>
+<td width="80%" align="center" valign="top">
+<br>
+
+<center>
+<table bgcolor=ffcccc>
+<tr><td>
+<b>To correct a report made in error:</b>
+<br>Enter the same data as before, except with the correct status.
+<br>Then click submit---the original entry will be corrected.
+</td></tr>
+</table>
+</center>
+
+<br>
+<table width="60%" cellpadding=10 border=0>
+<tr><td colspan=2 align="center">
+<Font size=5>Submit Report</font>
+</tr></td>
+
+<tr>
+<td><font size=4><b>Satellite</b></font></td>
+<td>
+<form method="post" action="submit.php">
+<select name=SatName>
+<option value="">Select Satellite
+<option value="[A]_AO-7">AO-7 Mode A
+<option value="[B]_AO-7">AO-7 Mode B
+<option value="AO-10">AO-10
+<option value="[B]_UO-11">UO-11 Mode B
+<option value="[S]_UO-11">UO-11 Mode S
+<option value="UO-14">UO-14
+<option value="RS-15">RS-15
+<option value="AO-16">AO-16
+<option value="LO-19">LO-19
+<option value="FO-20">FO-20
+<option value="RS-20">RS-20
+<option value="UO-22">UO-22
+<option value="RS-25">RS-25
+<option value="IO-26">IO-26
+<option value="AO-27">AO-27
+<option value="FO-29">FO-29
+<option value="GO-32">GO-32
+<option value="SO-33">SO-33
+<option value="AO-40">AO-40
+<option value="SO-41">SO-41
+<option value="NO-44">NO-44
+<option value="NO-45">NO-45
+<option value="MO-46">MO-46
+<option value="AO-49">AO-49
+<option value="SO-50">SO-50
+<option value="AO-51">AO-51
+<option value="NO-61">NO-61
+<option value="NO-62">NO-62
+<option value="VO-52">VO-52
+<option value="SO-67">SO-67
+<option value="HO-68">HO-68
+<option value="AO-73">AO-73
+<option value="AO-98">AO-98
+<option value="AO-99">AO-99
+<option value="ISS-FM">ISS FM Repeater
+<option value="ISS-DATA">ISS Packet/APRS
+<option value="ISS-SSTV">ISS SSTV
+<option value="CUTE-1">CUTE-1
+<option value="QUAKESAT">QUAKESAT
+<option value="UWE-1">UWE-1
+<option value="XI-IV">XI-IV
+<option value="XI-V">XI-V
+<option value="Delfi-C3">Delfi-C3 (DO-64)
+<option value="ANDE-2">ANDE-2 Castor/Pollux
+<option value="ITUpSAT1">ITUpSAT1
+<option value="FASTRAC1">FASTRAC1
+<option value="FASTRAC2">FASTRAC2
+<option value="ARISSat-1">ARISSat-1
+</select>
+</td></tr>
+
+<tr>
+<td><font size=4><b>Status Report</b></font></td>
+<td>
+<input type=radio name=SatReport value="Heard">Uplink and Downlink Active
+<br><input type=radio name=SatReport value="Telemetry Only">Downlink Only
+<br><input type=radio name=SatReport value="Not Heard">Not Heard
+<br><input type=radio name=SatReport value="Crew Active">ISS Crew (Voice) Active 
+</td>
+</tr>
+
+<tr>
+<td><font size=4><b>Date Heard</b></font></td>
+<td>
+<select name=SatMonth>
+<option value=01>Jan<option value="01">Jan
+<option value="02">Feb
+<option value="03">Mar
+<option value="04">Apr
+<option value="05">May
+<option value="06">Jun
+<option value="07">Jul
+<option value="08">Aug
+<option value="09">Sep
+<option value="10">Oct
+<option value="11">Nov
+<option value="12">Dec
+</select>
+,
+<select name=SatDay>
+<option value=6>6<option value="1">1
+<option value="2">2
+<option value="3">3
+<option value="4">4
+<option value="5">5
+<option value="6">6
+<option value="7">7
+<option value="8">8
+<option value="9">9
+<option value="10">10
+<option value="11">11
+<option value="12">12
+<option value="13">13
+<option value="14">14
+<option value="15">15
+<option value="16">16
+<option value="17">17
+<option value="18">18
+<option value="19">19
+<option value="20">20
+<option value="21">21
+<option value="22">22
+<option value="23">23
+<option value="24">24
+<option value="25">25
+<option value="26">26
+<option value="27">27
+<option value="28">28
+<option value="29">29
+<option value="30">30
+<option value="31">31
+</select>
+ 
+<select name="SatYear">
+<option value=2014>2014<option value="2008">2008
+<option value="2007">2007
+<option value="2006">2006
+<option value="2005">2005
+<option value="2004">2004
+</select>
+</td></tr>
+<tr>
+<td><font size=4><b>Time Heard (UTC)</b></font></td>
+<td>
+<select name=SatHour>
+<option value=5>5<option value="0">00
+<option value="1">01
+<option value="2">02
+<option value="3">03
+<option value="4">04
+<option value="5">05
+<option value="6">06
+<option value="7">07
+<option value="8">08
+<option value="9">09
+<option value="10">10
+<option value="11">11
+<option value="12">12
+<option value="13">13
+<option value="14">14
+<option value="15">15
+<option value="16">16
+<option value="17">17
+<option value="18">18
+<option value="19">19
+<option value="20">20
+<option value="21">21
+<option value="22">22
+<option value="23">23
+</select>
+<select name="SatPeriod">
+<option value=2>:31-:45<option value="0">:00-:15
+<option value="1">:16-:30
+<option value="2">:31-:45
+<option value="3">:46-:59
+</select>
+</td></tr>
+
+<tr>
+<td><font size=4><b>Your Callsign</b></font></td>
+<td><input type="text" name="SatCall"></td>
+</tr>
+
+<tr>
+<td> </td>
+<td>
+<input type="Submit" name="SatSubmit" value="Submit Data">
+</form>
+</td></tr>
+</table>
+
+<!--- main layout table--> 
+</td>
+</tr>
+</table>
+<hr>
+<br>
+<center>
+The below links enable you to preserve a small area of rainforest or feed someone hungry 
+<br>with five seconds of your time and a single mouse click.
+<br>
+<a href="http://www.thehungersite.com/"><img border="0" src="thehungersite.gif" alt="The Hunger Site"></a>
+<a href="http://www.therainforestsite.com/"><img border="0" src="therainforestsite.gif" alt="The Rainforest Site"></a>
+<br>
+<!-- GOOGLE ANAYTICS -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3403781-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+</body>
+</html>
