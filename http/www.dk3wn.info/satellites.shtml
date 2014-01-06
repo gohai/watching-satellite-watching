@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang=
+"de">
+<head>
+<meta http-equiv="Content-Type" content=
+"text/html; charset=iso-8859-1" />
+<title>Mike Rupprecht - Amateurfunk - Satelliten</title>
+<meta name="author" content="Mike Rupprecht" />
+<meta name="robots" content="index,follow" />
+<meta name="KeyWords" content=
+"Amateurfunk, DL1LSZ, Y63WM, DK3WN, Satelliten, NOAA, Meteosat, HF, UHF, CW, Contest, FT-736, TS-870, Log" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href=
+"css/newmain.css" />
+</head>
+
+<body>
+<a name="top" id="top"></a> <div id="head">
+
+<img src="http://webcounter.goweb.de:90/72588" alt="counter afu" class="floatLeft" /> 
+<a href="http://www.mike-rupprecht.de/index.html"><img src="http://www.mike-rupprecht.de/images/home.gif" alt="home" />home</a>&nbsp;&nbsp;&nbsp; 
+<a href="http://www.mike-rupprecht.de/mail.html"><img src="http://www.mike-rupprecht.de/images/mail.gif" alt="e-mail schreiben" />e-mail</a>&nbsp;&nbsp;&nbsp; 
+<a href="http://www.mike-rupprecht.de/eqs/index.html"><img src="http://www.mike-rupprecht.de/images/gbook.gif" alt="ins gästebuch eintragen" />gbook</a>&nbsp;&nbsp;&nbsp; 
+<a href="http://www.mike-rupprecht.de/news.html"><img src="http://www.mike-rupprecht.de/images/forum.gif" alt="news" />news</a>&nbsp;&nbsp;&nbsp; 
+<a href="http://www.mike-rupprecht.de/about.html"><img src="http://www.mike-rupprecht.de/images/about.gif" alt="about" />about</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</div>
+
+<div id="menue">
+
+<a href="http://www.dk3wn.info/dk3wn.shtml">dk3wn</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/satellites.shtml">satellites</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/satblog.shtml">satblog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/hf.shtml">hf</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/uvhf.shtml">uhf/vhf</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/scripts.shtml">scripts</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/digital.shtml">sdr</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/aktivitaeten.shtml">activities</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/php_log/search.html">log</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://www.dk3wn.info/software.shtml">software</a>
+
+</div><!-- menue -->
+
+
+<div id="content">
+<!-- ============================================================================= -->
+
+<img src="images/mike_cubesat.jpg" alt="" />
+
+<br /><br />
+<a href="http://www.dk3wn.info/p">Latest News (DK3WN SatBlog)</a> 
+<a href="http://www.dk3wn.info/p"><img src="images/satblog.jpg" alt="" class="floatRightFrame" /> </a>
+<p>Hier findet man interessante und aktuelle Informationen zu den
+derzeit aktiven Amateurfunksatelliten. Es werden aktuelle
+Empfangsm&ouml;glichkeiten und der Status der einzelnen
+Satelliten beschrieben. Technische Beschreibungen, Up- und
+Downlinkfrequenzen, und Betriebsarten sind ebenso zu finden, wie
+Hinweise zur Dekodierung von Telemetrie. Ausserdem findet man
+hier kurze Mitschnitte von Baken oder QSO's. Soweit vorhanden
+sind auch QSL-Informationen angegeben. <br />
+Weiterhin gibt es Informationen und Status umlaufender (z.B. NOAA-Serien) oder
+geostation&auml;rer (z.B. METEOSAT) Wettersatelliten, Empfangsfrequenzen, und technische Beschreibungen. Eine Seite befasst sich u.a. mit den
+Empfangsvoraussetzungen, Bildnachverarbeitung empfangener Satellitenbilder (False Color, L&auml;ndergrenzen usw.) gewidmet. Und nat&uuml;rlich sind auch
+Bilder von den einzelnen Wettersatelliten zu sehen.</p>
+<div class="clear"></div>
+<hr />
+
+<img src="images/oscar.jpg" class="floatRightFrame" alt="" />
+<br />
+<h2>Amateur Radio Satellites</h2>
+
+<table width="800" summary ="" border="1" cellpadding="2" cellspacing="2"  >
+<tr>
+<td class="active"><a href="sat/afu/sat_ao7.shtml">AMSAT OSCAR AO-7</a></td>
+<td class="inactive"><a href="sat/afu/sat_ao10.shtml">AMSAT OSCAR AO-10</a></td>
+<td class="active"><a href="sat/afu/sat_uo11.shtml">UoSAT OSCAR UO-11</a></td>
+<td class="inactive"><a href="sat/afu/sat_uo14.shtml">UoSAT OSCAR UO-14</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_ao16.shtml">OSCAR AO-16</a><br /><small>PACSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_do17.shtml">OSCAR DO-17</a><br /><small>DOVE-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_wo18.shtml">OSCAR WO-18</a><br /><small>WEBERSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_lo19.shtml">OSCAR LO-19</a><br /><small>LUSAT-1</small></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_io26.shtml">OSCAR IO-26</a><br /><small>ITAMSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_fo20.shtml">Fuji OSCAR FO-20</a><br /><small>JAS-1B</small></td>
+<td class="active"><a href="sat/afu/sat_fo29.shtml">Fuji OSCAR FO-29</a><br /><small>JAS-2B</small></td>
+<td class="inactive"><a href="sat/afu/sat_uo22.shtml">UoSAT OSCAR UO-22</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_ko23.shtml">KITSAT OSCAR KO-23</a></td>
+<td class="inactive"><a href="sat/afu/sat_ko25.shtml">KITSAT OSCAR KO-25</a></td>
+<td class="inactive"><a href="sat/afu/sat_ao27.shtml">AMRAD OSCAR AO-27</a></td>
+<td class="inactive"><a href="sat/afu/sat_po28.shtml">POSAT OSCAR PO-28</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_to31.shtml">OSCAR TO-31</a><br /><small>TMSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_go32.shtml">GURWIN OSCAR GO-32</a><br /><small>TECHSAT</small></td>
+<td class="inactive"><a href="sat/afu/sat_so33.shtml">OSCAR SO-33</a><br /><small>SEDSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_po34.shtml">OSCAR PO-34</a><br /><small>PANSAT-1</small></td>
+
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_so35.shtml">OSCAR SO-35</a><br /><small>SUNSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_uo36.shtml">UoSat OSCAR UO-36</a></td>
+<td class="inactive"><a href="sat/afu/sat_jaws.shtml">JAWSAT, STENSAT, ARTEMIS, ASUSat, OCSE</a></td>
+<td class="inactive"><a href="sat/afu/sat_uni.shtml">UniSat-1, -2, -3</a></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_oo38.shtml">OSCAR OO-38</a><br /><small>OPAL</small></td>
+<td class="inactive"><a href="sat/afu/sat_mo46.shtml">OSCAR MO-46</a><br /><small>TIUNGSAT-1</small></td>
+<td class="active"><a href="sat/afu/sat_so41.shtml">SAUDISAT SO-41, -42, -50</a></td>
+<td class="active"><a href="sat/afu/sat_iss.shtml">ISS</a></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_mir.shtml">MIR</a></td>
+<td class="inactive"><a href="sat/afu/sat_ao40.shtml">AMSAT OSCAR AO-40</a></td>
+<td class="inactive"><a href="sat/afu/sat_no45.shtml">NavSat OSCAR 45 </a><br /><small>SAPPHIR</small></td>
+<td class="deorbit"><a href="sat/afu/sat_starshine.shtml">Starshine -2, 3</a></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_idefix.shtml">BO-47, BO-48</a><br /><small>Idefix</small></td>
+<td class="inactive"><a href="sat/afu/sat_ao49.shtml">OSCAR AO-49</a><br /><small>AATIS</small></td>
+<td class="planned"><a href="sat/afu/sat_3csat.shtml">3CSat-1, -2,-3</a></td>
+<td class="inactive"><a href="sat/afu/sat_picosat.shtml">PicoSat</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_no44.shtml">NavSat OSCAR 44 </a><br /><small>PCSAT-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_ao51.shtml">AMSAT OSCAR-E AO-51</a></td>
+<td class="active"><a href="sat/afu/sat_vusat.shtml">VUSAT OSCAR VU-52</a></td>
+<td class="inactive"><a href="sat/afu/sat_sseti.shtml">SSETI Express XO-53</a></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_suitsat.shtml">AMSAT OSCAR-54 AO-54 </a><br /><small>SuitSat-1</small></td>
+<td class="planned"><a href="sat/afu/sat_kiwisat.shtml">KiwiSat</a></td>
+<td class="planned"><a href="sat/afu/sat_katysat.shtml">KatySat</a></td>
+<td class="planned"><a href="sat/afu/sat_bluesat.shtml">BLUESat</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_jaesat.shtml">JAE Master/Slave</a></td>
+<td class="deorbit"><a href="sat/afu/sat_maa.shtml">NAV OSCAR NO-61 </a><br /><small>ANDE-1 (MAA)</small></td>
+<td class="deorbit"><a href="sat/afu/sat_fcal.shtml">NRL OSCAR FO-62</a><br /><small>FCal-1</small></td>
+<td class="inactive"><a href="sat/afu/sat_pehuen.shtml">OSCAR PO-63</a><br /><small>PEHUENSat</small></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sputnik50.shtml">Sputnik 50</a></td>
+<td class="deorbit"><a href="sat/afu/sat_pcsat2.shtml">PCSAT-2</a></td>
+<td class="inactive"><a href="sat/afu/sat_sohla.shtml">SOHLA-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_kagayaki.shtml">KAGAYAKI </a><br /><small>SORUNSAT-1</small></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_kks1.shtml">KKS-1</a></td>
+<td class="active"><a href="sat/afu/sat_stars.shtml">STARS</a></td>
+<td class="active"><a href="sat/afu/sat_prism.shtml">PRISM</a></td>
+<td class="inactive"><a href="sat/afu/sat_sumbandila.shtml">SUMBANDILA OSCAR SO-67</a><br /><small>SumbandilaSat</small></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_pollux.shtml">POLLUX </a><br /><small>(ANDE-2)</small></td>
+<td class="deorbit"><a href="sat/afu/sat_castor.shtml">CASTOR </a><br /><small>(ANDE-2)</small></td>
+<td class="deorbit"><a href="sat/afu/sat_bevo.shtml">BEVO-1</a></td>
+<td class="deorbit"><a href="sat/afu/sat_aggiesat2.shtml">AGGIESat-2</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_xw1.shtml">HOPE OSCAR HO-68 </a> <br /><small>(XW-1)</small></td>
+<td class="inactive"><a href="sat/afu/sat_unitec.shtml">UNITEC-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_fast1.shtml">FASTRAC OSCAR FO-69<br /></a><small>Sara Lily</small></td>
+<td class="inactive"><a href="sat/afu/sat_fast2.shtml">FASTRAC OSCAR FO-70<br /></a><small>Emma</small></td>
+</tr>
+
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_arissat.shtml">ARISSat-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_nee01.shtml">NEE-01</a><br />Pegasus</td>
+<td class="active"><a href="sat/afu/sat_horyu2.shtml">HORYU-2</a><br /></td>
+<td class="inactive"><a href="sat/afu/sat_proiteres.shtml">PROITERES</a></td>
+</tr>
+
+<tr>
+<td class="active"><a href="sat/afu/sat_srmsat.shtml">SRMSAT</a></td>
+<td class="active"><a href="sat/afu/sat_jugnu.shtml">JUGNU</a></td>
+<td class="planned"><a href="">.</a></td>
+<td class="planned"><a href="">.</a></td>
+</tr>
+
+</table>
+<hr />
+
+<img src="images/cubesat.jpg" class="floatRightFrame" alt="" />
+<br />
+<h2>Cubesats / Nanosats / Picosats</h2>
+
+<table width="800" summary ="" border="1" cellpadding="2" cellspacing="2"  >
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_raft.shtml">NAV OSCAR 60 (RAFT)</a></td>
+<td class="deorbit"><a href="sat/afu/sat_marscom.shtml">MARSCom</a></td>
+<td class="deorbit"><a href="sat/afu/sat_hitsat.shtml">HITSAT OSCAR HO-59</a></td>
+<td class="active"><a href="sat/afu/sat_xiiv.shtml">CubeSat OSCAR CO-57</a> <br /><small>XI-IV</small></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_xiv.shtml">CubeSat OSCAR CO-58 </a><br /><small>XI-V</small></td>
+<td class="active"><a href="sat/afu/sat_cute.shtml">CUBESAT OSCAR CO-55 </a><br /><small>CUTE-I</small></td>
+<td class="inactive"><a href="sat/afu/sat_cute17apd.shtml">CUBESAT OSCAR CU-56 </a><br /><small>CUTE 1.7+APD</small></td>
+<td class="active"><a href="sat/afu/sat_cute17apd2.shtml">CUTE1.7+APD II</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_aau.shtml">AAUSat-1, AAUSat-2</a></td>
+<td class="inactive"><a href="sat/afu/sat_dtu.shtml">DTUSat</a></td>
+<td class="inactive"><a href="sat/afu/sat_canx.shtml">CanX-1, CanX-2</a></td>
+<td class="inactive"><a href="sat/afu/sat_uwe.shtml">UWE-1, UWE-2</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_compass.shtml">COMPASS-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_cp.shtml">PolySat CP1, CP2, CP3, CP4</a></td>
+<td class="inactive"><a href="sat/afu/sat_cp6.shtml">PolySat CP-6</a></td>
+<td class="planned"><a href="sat/afu/sat_voyager.shtml">Voyager (Mea Huaka'i)</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_rincon.shtml">RINCON, SACRED</a></td>
+<td class="planned"><a href="sat/afu/sat_ncube.shtml">NCube1, NCube2</a></td>
+<td class="planned"><a href="sat/afu/sat_merope.shtml">MEROPE</a></td>
+<td class="planned"><a href="sat/afu/sat_kutesat.shtml">KUTESat-1</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_ion.shtml">ION</a></td>
+<td class="planned"><a href="sat/afu/sat_hausat.shtml">HAUSat-1</a></td>
+<td class="active"><a href="sat/afu/sat_seeds.shtml">SEEDS</a></td>
+<td class="inactive"><a href="sat/afu/sat_libertad.shtml">Libertad-1</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_icecube.shtml">ICECUBE-1, -2</a></td>
+<td class="active"><a href="sat/afu/sat_cape.shtml">CAPE-1, CAPE-2</a></td>
+<td class="inactive"><a href="sat/afu/sat_almasat.shtml">AlMaSat</a></td>
+<td class="planned"><a href="sat/afu/sat_ucisat.shtml">UCISat</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_funsat.shtml">FUNSat</a></td>
+<td class="planned"><a href="sat/afu/sat_picpot.shtml">PIcPoT</a></td>
+<td class="active"><a href="sat/afu/sat_delfi.shtml">DELFI-C3</a></td>
+<td class="planned"><a href="sat/afu/sat_msu.shtml">MSU-1</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_camoes.shtml">Camoes Sat-1</a></td>
+<td class="planned"><a href="sat/afu/sat_oufti.shtml">OUFTI-1</a></td>
+<td class="active"><a href="sat/afu/sat_pwsat.shtml">PW-Sat</a></td>
+<td class="active"><a href="sat/afu/sat_xatcobeo.shtml">Xatcobeo</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_atmocube.shtml">AtmoCube</a></td>
+<td class="inactive"><a href="sat/afu/sat_goliat.shtml">Goliat</a></td>
+<td class="inactive"><a href="sat/afu/sat_robusta.shtml">ROBUSTA</a></td>
+<td class="active"><a href="sat/afu/sat_beesat.shtml">BeeSat-1</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_yam.shtml">YamSat-1</a></td>
+<td class="active"><a href="sat/afu/sat_itupsat.shtml">ITUpSat</a></td>
+<td class="inactive"><a href="sat/afu/sat_estar.shtml">e-st@r</a></td>
+<td class="planned"><a href="sat/afu/sat_hincube.stml">HiNCube</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_swisscube.shtml">SwissCube</a></td>
+<td class="active"><a href="sat/afu/sat_funcube.shtml">FUNCube</a></td>
+<td class="active"><a href="sat/afu/sat_kysat.shtml">KySat-1, KySat-2</a></td>
+<td class="deorbit"><a href="sat/afu/sat_hermes.shtml">Hermes</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_e1p.shtml">Explorer-1 Prime</a></td>
+<td class="deorbit"><a href="sat/afu/sat_negai.shtml">NEGAI</a></td>
+<td class="deorbit"><a href="sat/afu/sat_waseda2.shtml">WASEDASat-2</a></td>
+<td class="planned"><a href="sat/afu/sat_ksat.shtml">KSat</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_o_oreos.shtml">O/OREOS</a></td>
+<td class="inactive"><a href="sat/afu/sat_rax1.shtml">RAX-1</a></td>
+<td class="deorbit"><a href="sat/afu/sat_caerus.shtml">CAERUS</a></td>
+<td class="planned"><a href="sat/afu/sat_icube.shtml">ICube-1</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_aubiesat.shtml">AubieSat-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_rax2.shtml">RAX-2</a></td>
+<td class="active"><a href="sat/afu/sat_mcubed.shtml">M-Cubed</a></td>
+<td class="active"><a href="sat/afu/sat_tisat.shtml">TISAT-1</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/afu/sat_masat.shtml">MaSat-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_unicubesat.shtml">UniCubeSat</a></td>
+<td class="active"><a href="sat/afu/sat_csswe.shtml">CSSWE</a></td>
+<td class="inactive"><a href="sat/afu/sat_cp5.shtml">Calpoly CP-5</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_cxbn.shtml">CXBN</a></td>
+<td class="active"><a href="sat/afu/sat_aeneas.shtml">AENEAS</a></td>
+<td class="deorbit"><a href="sat/afu/sat_f1.shtml">F1</a></td>
+<td class="deorbit"><a href="sat/afu/sat_wewish.shtml">We-Wish</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_techedsat.shtml">TechEdSat</a></td>
+<td class="deorbit"><a href="sat/afu/sat_fitsat.shtml">FITSat-1</a></td>
+<td class="active"><a href="sat/afu/sat_beesat2.shtml">BeeSat-2</a></td>
+<td class="inactive"><a href="sat/afu/sat_beesat3.shtml">BeeSat-3</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_somp.shtml">SOMP</a></td>
+<td class="active"><a href="sat/afu/sat_aausat3.shtml">AAUSat-III</a></td>
+<td class="active"><a href="sat/afu/sat_strand.shtml">STRaND</a></td>
+<td class="deorbit"><a href="sat/afu/sat_phonesat.shtml">PhoneSat-x</a></td>
+</tr>
+
+<tr>
+<td class="inactive"><a href="sat/afu/sat_ossi1.shtml">OSSI-1</a></td>
+<td class="inactive"><a href="sat/afu/sat_turksat_3usat.shtml">TurkSat-3USat</a></td>
+<td class="active"><a href="sat/afu/sat_cubebug1.shtml">CubeBug-1</a></td>
+<td class="active"><a href="sat/afu/sat_estcube1.shtml">EstCube-1</a></td>                                    
+</tr>
+
+<tr>
+<td class="active"><a href="sat/afu/sat_picodragon.shtml">Pico Dragon</a></td>
+<td class="inactive"><a href="sat/afu/sat_nps_scat.shtml">NPS-SCAT</a></td>
+<td class="inactive"><a href="sat/afu/sat_copper.shtml">Copper-1</a></td>
+<td class="inactiv"><a href="sat/afu/sat_dragonsat.shtml">DragonSat-1</a></td>
+</tr>
+
+<tr>
+<td class="inactive"><a href="sat/afu/sat_tj3sat.shtml">TJ³SAT</a></td>
+<td class="inactive"><a href="sat/afu/sat_trailblazer.shtml">Trailblazer</a></td>
+<td class="inactive"><a href="sat/afu/sat_swampsat.shtml">SwampSat</a></td>
+<td class="inactive"><a href="sat/afu/sat_vermont.shtml">Vermont Lunar</a></td>
+</tr>
+
+
+</table>
+<hr />
+
+<img src="images/science.jpg" class="floatRightFrame" alt="" />
+<br />
+<h2>Scientific / Experimental / Commercial Satellites </h2> 
+<table width="800" summary ="" border="1" cellpadding="2" cellspacing="2"  >
+<tr>
+<td class="inactive"><a href="sat/afu/sat_lapan.shtml">LAPAN-TUBSat</a></td>
+<td class="inactive"><a href="sat/afu/sat_mepsi.shtml">MEPSI</a></td>
+<td class="deorbit"><a href="sat/afu/sat_genesat.shtml">GeneSat-1, GeneSat-2</a></td>
+<td class="inactive"><a href="sat/afu/sat_quake.shtml">QuakeSat</a></td>
+</tr>
+<tr>
+<td class="planned"><a href="sat/afu/sat_mast.shtml">MAST</a></td>
+<td class="deorbit"><a href="sat/afu/sat_nanosail.shtml">NanoSail D2</a></td>
+<td class="inactive"><a href="sat/afu/sat_sinah.shtml">SINAH-1 mit RS-25 Modul</a></td>
+<td class="planned"><a href="sat/afu/sat_presat.shtml">PreSat</a></td>
+</tr>
+<tr>
+<td class="deorbit"><a href="sat/afu/sat_pharmasat.shtml">PharmaSat-1</a></td>
+<td class="inactive"><a href="">AeroCube-3</a></td>
+<td class="inactive"><a href="sat/afu/sat_hawksat.shtml">HawkSat-1</a></td>
+<td class="active"><a href="sat/afu/sat_dande.shtml">DANDE</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_cusat.shtml">CUSat-1/2</a></td>
+<td class="inactive"><a href="sat/afu/sat_hooponopono.shtml">Ho'oponopono</a></td>
+<td class="active"><a href="sat/afu/sat_ardusat.shtml">ArduSat-1</a></td>
+<td class="planned"><a href="">...</a></td>
+</tr>
+</table>
+<hr />
+
+
+<img src="images/russian.jpg" class="floatRightFrame" alt="" />
+<br />
+<h2>Russian Satellites, Radio Sputnik </h2> 
+<table width="800" summary ="" border="1" cellpadding="2" cellspacing="2"  >
+<tr>
+<td class="inactive"><a href="sat/afu/sat_rs1213.shtml">Radio Sputnik RS-12/13 </a></td>
+<td class="inactive"><a href="sat/afu/sat_rs15.shtml">Radio Sputnik RS-15 </a></td>
+<td class="deorbit"><a href="sat/afu/sat_rs16.shtml">Radio Sputnik RS-16</a></td>
+<td class="deorbit"><a href="sat/afu/sat_rs18.shtml">SPOUTNIK-41 </a><br /><small>RS-18</small></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_rs20.shtml">Mozhayets </a><br /><small>RS-20</small></td>
+<td class="deorbit"><a href="sat/afu/sat_rs21.shtml">Kolibri-2000 </a><br /><small>RS-21</small></td>
+<td class="active"><a href="sat/afu/sat_rs22.shtml">Mozhayets-4 </a><br /><small>RS-22</small></td>
+<td class="inactive"><a href="sat/afu/sat_moz5.shtml">Mozhayets-5</a></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_sinah.shtml">SINAH-1 mit RS-25 Modul</a></td>
+<td class="inactive"><a href="sat/afu/sat_tatiana1.shtml">TATIANA-1</a><br /><small>Universitetsky, RS-23</small></td>
+<td class="active"><a href="sat/afu/sat_rs30.shtml">Yubileiny</a><br /><small>RS-30</small></td>
+<td class="inactive"><a href="sat/afu/sat_ugatusat.shtml">UGATUSat</a><br /><small>RS-28</small></td>
+</tr>
+<tr>
+<td class="inactive"><a href="sat/afu/sat_tatiana2.shtml">TATIANA-2</a><br /><small>Universitetsky RS-38</small></td>
+<td class="active"><a href="sat/afu/sat_rs39.shtml">CHIBIS-M</a><br /><small>RS-39</small></td>
+<td class="active"><a href="sat/afu/sat_rs40.shtml">Yubileiny-2</a><br /><small>RS-40</small></td>
+<td class="active"><a href="sat/afu/sat_aist.shtml">AIST</a><br /><small>RS-43</small></td>
+</tr>
+</table>
+<hr />
+
+<img src="images/wetter.jpg" class="floatRightFrame" alt="" />
+<br />
+<h2>Weather Satellites </h2> 
+
+<table width="800" summary ="" border="1" cellpadding="2" cellspacing="2"  >
+<tr>
+<td class="inactive"><a href="sat/wetter/sat_met5.shtml">METEOSAT-5</a></td>
+<td class="inactive"><a href="sat/wetter/sat_met6.shtml">METEOSAT-6</a></td>
+<td class="active"><a href="sat/wetter/sat_met7.shtml">METEOSAT-7</a></td>
+<td class="active"><a href="sat/wetter/sat_met8.shtml">MSG-1 (METEOSAT-8)</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/wetter/sat_met9.shtml">MSG-2 (METEOSAT-9)</a></td>
+<td class="active"><a href="sat/wetter/sat_met10.shtml">MSG-3 (METEOSAT-10)</a></td>
+<td class="inactive"><a href="sat/wetter/sat_noaa12.shtml">NOAA-12</a></td>
+<td class="inactive"><a href="sat/wetter/sat_noaa14.shtml">NOAA-14</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/wetter/sat_noaa15.shtml">NOAA-15</a></td>
+<td class="inactive"><a href="sat/wetter/sat_noaa16.shtml">NOAA-16</a></td>
+<td class="inactive"><a href="sat/wetter/sat_noaa17.shtml">NOAA-17</a></td>
+<td class="active"><a href="sat/wetter/sat_noaa18.shtml">NOAA-18</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/wetter/sat_noaa19.shtml">NOAA-19</a></td>
+<td class="inactive"><a href="sat/wetter/sat_meteor.shtm">METEOR 3-5</a></td>
+<td class="inactive"><a href="sat/wetter/sat_meteor.shtml">METEOR 2-21</a></td>
+<td class="inactive"><a href="sat/wetter/sat_okean.shtml">OKEAN</a></td>
+</tr>
+<tr>
+<td class="active"><a href="sat/wetter/sat_metop.shtml">METOP</a></td>
+<td class="inactive"><a href="sat/wetter/sat_resurs.shtml">RESURS</a></td>
+<td class="inactive"><a href="sat/wetter/sat_sich.shtml">SICH-1M</a></td>
+<td></td>
+</table
+
+<!-- ============================================================================= --></div>
+<!-- content -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5457031-2");
+pageTracker._trackPageview();
+</script>
+
+<div id="footer">
+©Mike Rupprecht,  Friday, 20-Dec-2013 17:38:14 MET
+
+<a href="http://validator.w3.org/check?uri=referer" title=
+"Diese Seite ist XHTML valide.">| XHTML <img src="http://www.mike-rupprecht.de/images/checked.gif" alt="ok" /></a> |
+<a href="http://jigsaw.w3.org/css-validator/check/referer" title="Diese Seite ist CSS valide.">CSS
+<img src="http://www.mike-rupprecht.de/images/checked.gif" alt="ok" /></a> | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#top" class="footer">TOP <img src="http://www.mike-rupprecht.de/images/top.gif" border="0" alt=
+"TOP" /></a></div>
+<!-- footer -->
+
+</body>
+</html>
